@@ -1,0 +1,99 @@
+https://www.lix.polytechnique.fr/~liberti/public/computing/prog/c/C/FUNCTIONS/format.html
+https://www.notion.so/Starfleet-2cc4eac8acdc4bbd83375e6777af1840 printf documentation
+https://www.freebsd.org/cgi/man.cgi?query=printf&apropos=0&sektion=3&manpath=Debian+8.1.0&arch=default&format=html
+https://opensource.apple.com/source/xnu/xnu-344/osfmk/kern/printf.c
+
+
+*	Flags	Minimum field Width	.precision Maximum field width	l	Convertion Type*	
+
+flags: # 0 - + _
+
+1) '#' : prefixe inserted
+arious uses:
+	  %#o (Octal) 0 prefix inserted.  (by prefixing a 0 if	it was not zero	already)
+	  %#x (Hex)   0x prefix added to non-zero values.| For x and X conversions, a nonzero result has the string "0x" 
+	  %#X (Hex)   0X prefix added to non-zero values.| (or "0X" for Xconversions)  prepended  to  it.
+	  %#e         Always show the decimal point.
+	  %#E         Always show the decimal point.
+	  %#f         Always show the decimal point.
+	  %#g         Always show the decimal point trailing 
+	  	      zeros not removed.
+	  %#G         Always show the decimal point trailing
+		      zeros not removed.
+
+    the result will always  contain  a  decimal	point, even  if	no digits follow it (normally,
+    a decimal point appears in the results of	those conversions only if  a  digit  follows).
+    For g and	G conversions, trailing zeros are not removed from the result as they would otherwise be.  
+    For other  conversions,  the result is	undefined. "error if the conversion is not those type"
+    
+2) '0' - Field is padded with 0's instead of blanks. For d, i, o, u, x, X, a, A, e, E, f, F, g, and G conversions.
+If a precision is given with  a numeric conversion (d, i, o, u, x, and X), the 0 flag is ignored.
+For other conversions, the behavior is undefined. If the 0 and - flags both appear, the 0 flag is ignored.
+
+3) '-' Left justify
+Left-align the output of this placeholder. (The default is to right-align the output.)
+A - overrides a	0 if both are given. ex: printf("%-50dhello\n", 12789); => 31f5                                              hello
+
+4) ' ' (a  space)  A  blank should be left before a positive number(or empty string) produced by	a signed conversion.
+ex: printf("% dhello\n", 12789); =>" 12789hello";
+ex: printf("% dhello\n", -12789); =>"12789hello"; if a number is negative no space;
+
+5) '+'  A	sign (+	or -) should always be placed before a number produced by a signed conversion.  By default a sign is used only for
+negative numbers.  A+ overrides a space if both are	used.
+
+
+
+
+
+
+
+bonus:
+
+Gestion de conversions plus délicates : eE, fF, gG, aA, n.
+• Gestion de flags plus delicats : *, $, L, ’ .
+• Gestion de flags non existants : %b pour afficher en binaire, %r pour afficher une
+chaine avec des caractères non imprimables, %k pour afficher une date à un format
+ISO quelconque, etc.
+• Gestion de modifieurs pour gérer les couleurs, les fd ou des choses fun comme ça :)
+printf("Le fichier {cyan}%s{eoc} contient : {red}%s{eoc}", filename, str) ;
+
+ s S p d D i o O u U x X c C
+
+
+ /* void ft_struct_check(t_args *flags)
+{
+    printf("plus: %d\n", flags->plus);
+    printf("min: %d\n", flags->min);
+    printf("space: %d\n", flags->space);
+    printf("hash: %d\n", flags->hash);
+    printf("zero: %d\n", flags->zero);
+    printf("prec: %d\n", flags->prec);
+    printf("precis: %d\n", flags->precis);
+    printf("f_w: %d\n", flags->f_w);
+    printf("l: %d\n", flags->l);
+    printf("type: %c\n", flags->type);
+} */
+
+
+if(CE_3(p->f.type, 'd', 'i','D'))
+	{
+		ft_putstr("im here\n");
+		p->f.sign = IM< 0 ? '-' : p->f.sign;
+		p->f.plus = p->f.sign ? 0 : p->f.plus;
+		STR = ft_strdup(ft_itoa((int)p->f.types.im));
+		/* STR = (p->f.l != L) ? ft_strdup(ft_uitoabase((signed int)UM, 10, 0)) : STR;
+		STR = (p->f.l == L || p->f.type == 'D') ? ft_strdup(ft_uitoabase((signed long)UM, 10, 0)) : STR;
+		STR = (p->f.l == LL) ? ft_strdup(ft_uitoabase((signed long long)UM, 8, 0)) : STR;
+		STR = (p->f.l == J) ? ft_strdup(ft_uitoabase((intmax_t)UM, 10, 0)) : STR; */
+	}	
+			
+https://stackoverflow.com/tour
+
+
+
+a consulter plustard
+
+https://stackoverflow.com/questions/5163835/what-is-u-int32-t
+https://en.wikipedia.org/wiki/C_data_types
+https://stackoverflow.com/questions/6920554/source-code-in-embedded-c-for-unsigned-integer-to-string/40731333  imperatif
+https://cboard.cprogramming.com/c-programming/104485-how-convert-uint32_t-string.html
