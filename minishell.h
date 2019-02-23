@@ -8,11 +8,11 @@
 # include <string.h>
 # include <errno.h>
 # include <dirent.h>
+# define PROMPT "$> "
 
 typedef struct  s_shell
 {
-    char *str; dsas
+    char *str;
     char **buff;
-
 }               t_shell;
 #endif
