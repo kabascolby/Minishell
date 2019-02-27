@@ -79,6 +79,9 @@ FILES = ft_countwords.c\
 		ft_deque2.c\
 		ft_str_cat_free.c\
 		ft_numdigit.c\
+		ft_strtok_r.c\
+		ft_strspn.c\
+		ft_strcspn.c\
 		ft_debug.c
 
 OFILES = $(FILES:.c=.o)

@@ -6,17 +6,20 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 13:33:59 by lkaba             #+#    #+#             */
-/*   Updated: 2018/07/30 18:07:40 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/02/27 05:30:52 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 # include <string.h>
+# include <stdarg.h>
 # include "get_next_line.h"
 # include "ft_printf/ft_printf.h"
 # include "doubly_link.h"
 # include "ft_deque.h"
+# define UNUSED(x) ((x)=(x))
+# define UNUSED2(...) (void)(__VA_ARGS__)
 
 typedef struct	s_list
 {
@@ -136,5 +139,8 @@ char			*ft_strupcase(char *str);
 wchar_t			*ft_wstrdup(wchar_t *ws);
 char			*ft_uitoabase(uintmax_t val, int base, int opt);
 char			*ft_str_cat_free(char **s, int j, char *s2);
-uint64_t 		ft_numdigit(uint64_t num);
+char			*ft_strtok_r(char *s, const char *filter, char **save_ptr);
+size_t			ft_strspn(const char *str, const char *charset);
+size_t			ft_strcspn(const char *str, const char *charset);
+uint64_t		ft_numdigit(uint64_t num);
 #endif

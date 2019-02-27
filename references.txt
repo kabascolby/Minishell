@@ -2,4 +2,8 @@ https://brennan.io/2015/01/16/write-a-shell-in-c/
 
 https://indradhanush.github.io/blog/writing-a-unix-shell-part-1/ part two also available
 
+https://code.woboq.org/userspace/glibc/string/strtok_r.c.html
 
+https://c-for-dummies.com/blog/
+
+learn about caractere mask it will make thing easier
