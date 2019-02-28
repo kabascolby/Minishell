@@ -8,11 +8,14 @@
 # include <string.h>
 # include <errno.h>
 # include <dirent.h>
-# define PROMPT "$> "
+# define PROMPT ft_printf("$> ")
+#define TOK_BUFSIZE 64
+#define FILTER " \"\t\r\n\a"
 
-typedef struct  s_shell
+typedef struct  s_process
 {
-    char *str;
-    char **buff;
-}               t_shell;
+    char	**list_tokens;
+	int		status;
+	int		id;
+}               t_process;
 #endif

@@ -204,3 +204,29 @@
 
 //   return 0;
 // }
+
+// #include <string.h>
+// #include <stdlib.h>
+// #include <stdio.h>
+
+
+// #include "minishell.h"
+// # define FREE_ARRAY(array, size) do {\
+//   unsigned int count;\
+//   count = 0;\
+//   while (count++ < size)\
+//   {\
+//     printf("------------->%d\n", count);\
+//     FREE(*array[count]);\
+//     printf("____________here_____\n");\
+//   }\
+//   free(array);\
+// } while (0)
+// int main() {
+//   int **tab;
+  
+//   tab = malloc(8 * sizeof(int *));
+//   FREE_ARRAY(&tab, 8);
+
+//   return 0;
+// }

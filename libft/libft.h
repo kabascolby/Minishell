@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 13:33:59 by lkaba             #+#    #+#             */
-/*   Updated: 2019/02/27 05:30:52 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/02/27 19:39:07 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,33 @@
 # include "ft_deque.h"
 # define UNUSED(x) ((x)=(x))
 # define UNUSED2(...) (void)(__VA_ARGS__)
+# define ERROR_ALLOC_MESSAGE "Insufficient memory"
+# define MALLOC(p, n) \
+do \
+{ \
+  if ( !( (p) = malloc(sizeof(*(p)) * (n)) ) ) \
+  { \
+   ft_printf(ERROR_ALLOC_MESSAGE); \
+    exit(EXIT_FAILURE); \
+  } \
+} \
+while(0)
+# define FREE(p) \
+do \
+{ \
+  free(p); \
+  p = NULL; \
+} \
+while(0)
+/* # define FREE_ARRAY(array, size) do {\
+  size_t count;\
+  for (count = 0; count < (size); count++)\
+   {\
+    free((array)[count]);\
+    (array)[count] = NULL;\
+   }\
+  free(array);\
+} while (0) */
 
 typedef struct	s_list
 {
