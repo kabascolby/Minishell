@@ -262,3 +262,63 @@ void errhandle(char* msg)
 	perror(msg);
 	exit(1);
 }
+
+
+
+#include <stdlib.h>
+#include <string.h>
+#include <stdint.h>
+#define TOK_BUFSIZE 2
+# define FILTER " \"\t\r\n\a"
+# define MALLOC(p, n) \
+do \
+{ \
+  if ( !( (p) = malloc(sizeof(*(p)) * (n)) ) ) \
+  { \
+     printf("Insufficient memory"); \
+    exit(EXIT_FAILURE); \
+  } \
+} \
+while(0)
+# define FREE(p) \
+do \
+{ \
+  free(p); \
+  p = NULL; \
+} \
+while(0)
+
+char **split_line(char *line)
+{
+    uint32_t    i;
+    char        **tokens;
+    char        **tmp;
+    uint32_t     bufsize;
+
+    bufsize = TOK_BUFSIZE;
+    MALLOC(tokens, bufsize);
+    i = -1;
+    do 
+    {  
+      tokens[++i] = strtok_r(line, FILTER, &line);
+        if(i + 1 >= TOK_BUFSIZE)
+        {
+            MALLOC(tmp, (bufsize + TOK_BUFSIZE));
+            memcpy(tmp, tokens, bufsize * sizeof(char *));
+            bufsize += TOK_BUFSIZE;
+            FREE(tokens);
+            tokens = tmp;
+        }
+    }while(tokens[i]);
+    tokens[i] = NULL;
+    for (int i = 0; tokens[i]; i++){
+        printf("%s\n", tokens[i]);
+    }
+            // ft_putstr("________________Here_____________\n");
+    return tokens;    
+}
+
+int main() {
+  split_line(strdup(" Mohamed ****Lamine ***Kaba***"));
+  return 0;
+}

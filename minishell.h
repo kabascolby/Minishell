@@ -9,8 +9,8 @@
 # include <errno.h>
 # include <dirent.h>
 # define PROMPT ft_printf("$> ")
-#define TOK_BUFSIZE 64
-#define FILTER " \"\t\r\n\a"
+# define TOK_BUFSIZE 2
+# define FILTER " \"\t\r\n\a"
 
 typedef struct  s_process
 {
