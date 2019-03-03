@@ -7,3 +7,5 @@ https://code.woboq.org/userspace/glibc/string/strtok_r.c.html
 https://c-for-dummies.com/blog/
 
 learn about caractere mask it will make thing easier
+
+https://www.youtube.com/watch?v=ss1-REMJ9GA&list=PL9IEJIKnBJjFNNfpY6fHjVzAwtgRYjhPw

@@ -8,6 +8,7 @@
 # include <string.h>
 # include <errno.h>
 # include <dirent.h>
+# include <sys/wait.h>
 # define PROMPT ft_printf("$> ")
 # define TOK_BUFSIZE 2
 # define FILTER " \"\t\r\n\a"
