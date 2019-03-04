@@ -14,6 +14,7 @@
 # define LIBFT_H
 # include <string.h>
 # include <stdarg.h>
+# include <stdint.h>
 # include "get_next_line.h"
 # include "ft_printf/ft_printf.h"
 # include "doubly_link.h"
@@ -27,22 +28,22 @@
 
 // #define UNUSED2(...) (void)(__VA_ARGS__, throwaway)
 # define ERROR_ALLOC_MESSAGE "Insufficient memory"
-# define MALLOC(p, n) \
-do \
-{ \
-  if ( !( (p) = malloc(sizeof(*(p)) * (n)) ) ) \
-  { \
-   ft_printf(ERROR_ALLOC_MESSAGE); \
-    exit(EXIT_FAILURE); \
-  } \
-} \
+# define MALLOC(p, n)\
+do\
+{\
+  if ( !( (p) = malloc(sizeof(*(p)) * (n)) ) )\
+  {\
+   ft_printf(ERROR_ALLOC_MESSAGE);\
+    exit(EXIT_FAILURE);\
+  }\
+}\
 while(0)
-# define FREE(p) \
-do \
-{ \
-  free(p); \
-  p = NULL; \
-} \
+# define FREE(p)\
+do\
+{\
+  free(p);\
+  p = NULL;\
+}\
 while(0)
 
 typedef struct	s_list

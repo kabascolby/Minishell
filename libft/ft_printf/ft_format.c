@@ -60,7 +60,7 @@ void	ft_field_width(t_p *p)
 	p->f.fw = p->f.zero ? '0' : ' ';
 	ft_memset(f, p->f.fw, p->f.f_w);
 	STR = p->f.zero ? ft_spf(&STR, 1 + p->f.sign + p->f.plus, f) : STR;
-	p->f.pos = p->f.min ? p->f.len + 1 : (1 - p->f.sign);
+	p->f.pos = p->f.min ? (p->f.len + 1) : (int)(1 - p->f.sign);
 	STR = !p->f.zero ? ft_spf(&STR, p->f.pos, f) : STR;
 	ft_field_width2(p);
 }

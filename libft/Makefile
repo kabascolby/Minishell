@@ -87,7 +87,7 @@ FILES = ft_countwords.c\
 OFILES = $(FILES:.c=.o)
 NAME = libft.a
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -Wno-pointer-arith
 
 $(NAME): $(OFILES)
 	@ar rc $(NAME) $^

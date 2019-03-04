@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 NAME = minishell
-FLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
+FLAGS = -Wall -Wextra -Werror -Wno-pointer-arith #-g -fsanitize=address
 FILES = $(wildcard *.c)
 OFILES = $(patsubst %.c, %.o, $(FILES))
 LIBFT = libft.a
