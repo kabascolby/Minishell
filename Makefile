@@ -6,7 +6,7 @@
 #    By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/07 05:25:18 by lkaba             #+#    #+#              #
-#    Updated: 2019/02/27 21:14:10 by lkaba            ###   ########.fr        #
+#    Updated: 2019/03/03 16:06:36 by lkaba            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ $(LIBFT):
 	@make -C libft/ft_printf
 	@mv libft/ft_printf/libftprintf.a libft/libft.a
 
-%.o: %.c
+%.o: %.c minishell.h
 	gcc $(FLAGS) -c $<
 
 clean:

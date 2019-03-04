@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 13:33:59 by lkaba             #+#    #+#             */
-/*   Updated: 2019/03/02 12:07:32 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/03/03 16:00:50 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@
 // #define UNUSED2(...) (void)(__VA_ARGS__, throwaway)
 # define ERROR_ALLOC_MESSAGE "Insufficient memory"
 # define MALLOC(p, n) \
-do \
-{ \
-  if ( !( (p) = malloc(sizeof(*(p)) * (n)) ) ) \
-  { \
-   ft_printf(ERROR_ALLOC_MESSAGE); \
-    exit(EXIT_FAILURE); \
-  } \
+	do \
+	{ \
+	if ( !( (p) = malloc(sizeof(*(p)) * (n)) ) ) \
+	{ \
+	ft_printf(ERROR_ALLOC_MESSAGE); \
+		exit(EXIT_FAILURE); \
+	} \
 } \
 while(0)
 # define FREE(p) \
