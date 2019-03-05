@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+extern char **environ;
+
 char **split_line(char *line)
 {
 	char		**tokens;
@@ -70,20 +72,15 @@ void parse_env(t_shell *shell, char **env)
 	while(env[++i])
 		shell->env[i] = ft_strdup(env[i]);
 	shell->env[i + 1] = NULL;
+	while(*shell->env)
+		ft_printf("%s\n", *shell->env++);
 }
 
-int main(int argc, char **argv, char **env)
+int main()
 {
 	t_shell	shell;
-	UNUSED(argc);
-	UNUSED(argv);
 	ft_bzero((t_shell *)&shell, sizeof(t_shell));
-	parse_env(&shell, env);
+	parse_env(&shell, environ);
 	stdin_listenner();
 	return (0);
 }
-	// int p;
-	// if (0 == (p = fork()))
-	// 	ft_printf("________________child_____________%d___%d\n", getpid(), p);
-	// else
-	// 	ft_printf("________________parent________%d___%d\n", getpid(), p);
