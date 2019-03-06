@@ -1,0 +1,9 @@
+https://github.com/AymenTM/42-Workspace/blob/master/Libft/Hashtables/hashtab_alloc_table.c
+
+https://codereview.stackexchange.com/questions/208744/quick-simple-hash-table-implementation-in-c/208845#208845
+
+http://troydhanson.github.io/uthash/userguide.html
+
+http://www.martinbroadhurst.com/deque.html
+
+https://www.youtube.com/watch?v=KyUTuwz_b7Q
