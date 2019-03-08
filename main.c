@@ -42,18 +42,18 @@ void stdin_listenner(void)
 	{
 		printf("%s\n",line);
 		proc.list_tokens = split_line(line);
-		//  int p = 0;
-		// if (0 == (p = fork()))
-		// {
-		// 	if(-1 == execlp(proc.list_tokens[0], proc.list_tokens[1], proc.list_tokens[2], NULL))
-		// 		ft_putendl("invalide commmad");
-		// 	// ft_printf("________________child_____________%d___%d\n", getpid(), p);
-		// }
-		// else
-		// {
-		// 	wait(&p);
-		// 	ft_printf("________________parent________%d___%d\n", getpid(), p);
-		// }
+		 int p = 0;
+		if (0 == (p = fork()))
+		{
+			if(-1 == execlp(proc.list_tokens[0], proc.list_tokens[1], proc.list_tokens[2], NULL))
+				ft_putendl("invalide commmad");
+			// ft_printf("________________child_____________%d___%d\n", getpid(), p);
+		}
+		else
+		{
+			wait(&p);
+			ft_printf("________________parent________%d___%d\n", getpid(), p);
+		}
 		stdin_listenner();
 	}
 }

@@ -1,4 +1,4 @@
-https://github.com/AymenTM/42-Workspace/blob/master/Libft/Hashtables/hashtab_alloc_table.c
+https://github.com/AymenTM/Harvard-CS50/blob/master/5Pset/Data%20Structures/Hash%20Tables/hashtable.c
 
 https://codereview.stackexchange.com/questions/208744/quick-simple-hash-table-implementation-in-c/208845#208845
 
@@ -7,3 +7,5 @@ http://troydhanson.github.io/uthash/userguide.html
 http://www.martinbroadhurst.com/deque.html
 
 https://www.youtube.com/watch?v=KyUTuwz_b7Q
+
+https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function

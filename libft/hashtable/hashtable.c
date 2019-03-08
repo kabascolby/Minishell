@@ -10,7 +10,7 @@ void		*hashtable_init(void)
 	size = SIZETABLE;
 	if (size < 1)
 		return (NULL);
-	if (!(table = malloc(sizeof(t_hashtable))))
+	if (!(table = (t_hashtable *)malloc(sizeof(t_hashtable))))
 		return (NULL);
 	size = (unsigned int)ft_find_next_prime(size);
 	if (!(table->bucket_list =
