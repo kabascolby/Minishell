@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 13:33:59 by lkaba             #+#    #+#             */
-/*   Updated: 2019/03/03 16:00:50 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/03/09 12:40:07 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include "doubly_link.h"
 # include "ft_deque.h"
 # define UNUSED(x) ((x)=(x))
+#  define EVEN(n) (n % 2 == 0)
+#  define ODD (n % 2 == 1)
 // #define FIRST(...) FIRST_HELPER(__VA_ARGS__, throwaway)
 // #define FIRST_HELPER(first, ...) first
 
