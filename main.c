@@ -71,7 +71,7 @@ void parse_env(t_shell *shell, char **env)
 	i = -1;
 	while(env[++i])
 		shell->env[i] = ft_strdup(env[i]);
-	shell->env[i + 1] = NULL;
+	shell->env[i] = NULL;
 	while(*shell->env)
 		ft_printf("%s\n", *shell->env++);
 }
