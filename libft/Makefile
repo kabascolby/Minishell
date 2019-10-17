@@ -82,6 +82,8 @@ FILES = ft_countwords.c\
 		ft_strtok_r.c\
 		ft_strspn.c\
 		ft_strcspn.c\
+		ft_isprime.c\
+		ft_find_next_prime.c\
 		ft_debug.c
 
 OFILES = $(FILES:.c=.o)

@@ -1,4 +1,4 @@
-https://github.com/AymenTM/Harvard-CS50/blob/master/5Pset/Data%20Structures/Hash%20Tables/hashtable.c
+https://github.com/akharrou/42-Project-Libft/tree/master/Hashtables
 
 https://codereview.stackexchange.com/questions/208744/quick-simple-hash-table-implementation-in-c/208845#208845
 
@@ -9,3 +9,5 @@ http://www.martinbroadhurst.com/deque.html
 https://www.youtube.com/watch?v=KyUTuwz_b7Q
 
 https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function
+
+https://softwareengineering.stackexchange.com/questions/49550/which-hashing-algorithm-is-best-for-uniqueness-and-speed

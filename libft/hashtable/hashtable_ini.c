@@ -1,19 +1,35 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hashtable_ini.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/15 19:23:28 by lkaba             #+#    #+#             */
+/*   Updated: 2019/10/16 20:12:25 by lkaba            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "hashtable.h"
 
-
-void		*hashtable_init(void)
+static void init(t_hashtable **table)
 {
-	t_hashtable		*table;
-	uint16_t		i;
-	uint16_t		size;
+	(*table)->insert = hashtable_insert;
+}
 
-	if (size < 1)
+t_hashtable *hashtable_init(uint32_t len)
+{
+	t_hashtable *table;
+	uint64_t size;
+	uint64_t i;
+
+	if (len < 1)
 		return (NULL);
 	if (!(table = (t_hashtable *)malloc(sizeof(t_hashtable))))
 		return (NULL);
-	size = (unsigned int)ft_find_next_prime(NUMBUCKET);
-	if (!(table->buckets =
-			(t_entry **)malloc(sizeof(t_entry *) * size)))
+	size = ft_isprime(len) ? len : ft_find_next_prime(len);
+
+	if (!(table->buckets = (t_entry **)malloc(sizeof(t_entry *) * size)))
 	{
 		free(table);
 		return (NULL);
@@ -22,34 +38,7 @@ void		*hashtable_init(void)
 	table->entries = 0;
 	i = -1;
 	while (size > ++i)
-		table->buckets[i] = NULL;
+		(table->buckets)[i] = NULL;
+	init(&table);
 	return (table);
-}
-
-
-t_entry		*new_entry(char *key, void *item)
-{
-	t_entry *new_entry;
-
-	if (key && item)
-	{
-		if (!(new_entry = (t_entry *)malloc(sizeof(t_entry))))
-			return (NULL);
-		new_entry->key = ft_strdup(key);
-		new_entry->item = item;
-		new_entry->next = NULL;
-		return (new_entry);
-	}
-	return (NULL);
-}
-
-int		ft_find_next_prime(int n)
-{
-	if (EVEN(n))
-		n++;
-	else
-		n += 2;
-	while (!ft_isprime(n))
-		n += 2;
-	return (n);
 }

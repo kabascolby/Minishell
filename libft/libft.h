@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 13:33:59 by lkaba             #+#    #+#             */
-/*   Updated: 2019/03/09 12:40:07 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/10/15 19:38:57 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,34 +20,8 @@
 # include "doubly_link.h"
 # include "ft_deque.h"
 # define UNUSED(x) ((x)=(x))
-#  define EVEN(n) (n % 2 == 0)
-#  define ODD (n % 2 == 1)
-// #define FIRST(...) FIRST_HELPER(__VA_ARGS__, throwaway)
-// #define FIRST_HELPER(first, ...) first
-
-#define BAR_HELPER(a, ...) (void)(a, __VA_ARGS__)
-#define UNUSED2(...) BAR_HELPER(__VA_ARGS__, 0)
-
-// #define UNUSED2(...) (void)(__VA_ARGS__, throwaway)
-# define ERROR_ALLOC_MESSAGE "Insufficient memory"
-# define MALLOC(p, n)\
-do\
-{\
-  if ( !( (p) = malloc(sizeof(*(p)) * (n)) ) )\
-  {\
-   ft_printf(ERROR_ALLOC_MESSAGE);\
-    exit(EXIT_FAILURE);\
-  }\
-}\
-while(0)
-# define FREE(p)\
-do\
-{\
-  free(p);\
-  p = NULL;\
-}\
-while(0)
-
+# define EVEN(n) (n % 2 == 0)
+# define ODD (n % 2 == 1)
 typedef struct	s_list
 {
 	void			*content;
@@ -170,4 +144,6 @@ char			*ft_strtok_r(char *s, const char *filter, char **save_ptr);
 size_t			ft_strspn(const char *str, const char *charset);
 size_t			ft_strcspn(const char *str, const char *charset);
 uint64_t		ft_numdigit(uint64_t num);
+uint8_t			ft_isprime(uint32_t a);
+uint64_t		ft_find_next_prime(uint64_t n);
 #endif
