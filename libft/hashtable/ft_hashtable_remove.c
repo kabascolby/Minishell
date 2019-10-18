@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hashtable_remove.c                                 :+:      :+:    :+:   */
+/*   ft_hashtable_remove.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 11:23:38 by lkaba             #+#    #+#             */
-/*   Updated: 2019/10/16 11:23:40 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/10/17 23:05:20 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hashtable.h"
 
-static void free_entry_except_item(t_entry **entry)
+static void	free_entry_except_item(t_entry **entry)
 {
 	if (entry && *entry)
 	{
@@ -23,12 +23,12 @@ static void free_entry_except_item(t_entry **entry)
 	}
 }
 
-static void *popitem_util(t_hashtable **table, t_entry *first_entry,
-						  unsigned int index, char *key)
+static void	*popitem_util(t_hashtable **table, t_entry *first_entry,
+							unsigned int index, char *key)
 {
-	t_entry *prev_entry;
-	t_entry *cur_entry;
-	void *item;
+	t_entry	*prev_entry;
+	t_entry	*cur_entry;
+	void	*item;
 
 	cur_entry = first_entry;
 	while (cur_entry)
@@ -50,7 +50,7 @@ static void *popitem_util(t_hashtable **table, t_entry *first_entry,
 	return (NULL);
 }
 
-void *hashtab_popitem(t_hashtable **table, char *key)
+void		*hashtab_popitem(t_hashtable **table, char *key)
 {
 	unsigned int index;
 
