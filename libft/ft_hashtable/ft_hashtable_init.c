@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_hashtable_ini.c                                 :+:      :+:    :+:   */
+/*   ft_hashtable_init.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 19:23:28 by lkaba             #+#    #+#             */
-/*   Updated: 2019/10/17 23:17:02 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/10/18 00:06:25 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hashtable.h"
 
-static void	init(t_hashtable **table)
+static void	init_hashtable_fnptr(t_hashtable **table)
 {
 	(*table)->insert = hashtable_insert;
 	(*table)->destroy = hashtable_destroy;
@@ -42,6 +42,6 @@ t_hashtable	*hashtable_init(uint32_t len)
 	i = -1;
 	while (size > ++i)
 		(table->buckets)[i] = NULL;
-	init(&table);
+	init_hashtable_fnptr(&table);
 	return (table);
 }

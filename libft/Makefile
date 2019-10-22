@@ -84,6 +84,7 @@ FILES = ft_countwords.c\
 		ft_strcspn.c\
 		ft_isprime.c\
 		ft_find_next_prime.c\
+		ft_get_malloc.c\
 		ft_debug.c
 
 OFILES = $(FILES:.c=.o)

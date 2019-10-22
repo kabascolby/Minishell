@@ -5,41 +5,39 @@
 #                                                     +:+ +:+         +:+      #
 #    By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2018/07/07 05:25:18 by lkaba             #+#    #+#              #
-#    Updated: 2019/10/18 16:47:16 by lkaba            ###   ########.fr        #
+#    Created: 2019/10/17 23:35:12 by lkaba             #+#    #+#              #
+#    Updated: 2019/10/18 15:57:40 by lkaba            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minishell
-FLAGS = -Wall -Wextra -Werror -Wno-pointer-arith -g -fsanitize=address
+NAME = libfthashtable.a
+FLAGS = -Wall -Wextra -Werror
 FILES = $(wildcard *.c)
 OFILES = $(patsubst %.c, %.o, $(FILES))
-PLIBFT = ./libft/ft_printf/libftprintf.a
-HASHTABLE = ./libft/ft_hashtable/libfthashtable.a
+LIBFT = libft.a
 
 all: $(NAME)
 
+$(NAME): $(LIBFT) $(OFILES)
+	@ar rc $(NAME) $(OFILES) $(wildcard ../*.o)
+	@ranlib $(NAME)
 
-$(NAME): $(PLIBFT) $(HASHTABLE) $(OFILES)
-	@gcc $(FLAGS) $^ -o $@
+$(LIBFT): force
+	@make -C ../
 
-$(PLIBFT):
-	@make -C libft/ft_printf
+%.o: %.c hashtable.h
+	@echo compiling $<
+	@gcc $(FLAGS) -I ../ -c $<
 
-$(HASHTABLE):
-	@make -C libft/ft_hashtable
-
-%.o: %.c minishell.h
-	gcc $(FLAGS) -c $<
+force:
+	@true
 
 clean:
-	@/bin/rm -f $(FILES:.c=.o)
-	@make clean -C libft/ft_printf
-	@make clean -C libft/ft_hashtable
+	@/bin/rm -f $(OFILES)
+	@make clean -C ../
 
 fclean: clean
 	@/bin/rm -f $(NAME)
-	@make fclean -C libft/ft_printf
-	@make fclean -C libft/ft_hashtable
+	@make fclean -C ../
 
 re: fclean all

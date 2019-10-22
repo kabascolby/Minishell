@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hash.c                                             :+:      :+:    :+:   */
+/*   ft_get_malloc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/15 12:55:30 by lkaba             #+#    #+#             */
-/*   Updated: 2019/10/17 23:01:59 by lkaba            ###   ########.fr       */
+/*   Created: 2019/10/18 10:23:16 by lkaba             #+#    #+#             */
+/*   Updated: 2019/10/18 10:52:36 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-** Creation a strong hash function this code will be improved in
-*/
+#include "libft.h"
 
-#include "hashtable.h"
-
-uint64_t	hash(void *key, uint64_t length)
+void	*ft_get_malloc(size_t n)
 {
-	unsigned char	*p;
-	uint64_t		h;
-	uint64_t		i;
+	void	*p;
 
-	h = 2166136261UL;
-	p = (unsigned char *)key;
-	i = -1;
-	while (++i < length)
-		h = (h * 16777619) ^ p[i];
-	return (h);
+	if (!((p) = ft_memalloc(n)))
+	{
+		ft_printf(ERROR_ALLOC_MESSAGE);
+		exit(EXIT_FAILURE);
+	}
+	return (p);
 }

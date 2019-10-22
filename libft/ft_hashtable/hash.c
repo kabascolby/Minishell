@@ -1,32 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strspn.c                                        :+:      :+:    :+:   */
+/*   hash.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/27 01:45:39 by lkaba             #+#    #+#             */
-/*   Updated: 2019/10/18 13:08:18 by lkaba            ###   ########.fr       */
+/*   Created: 2019/10/15 12:55:30 by lkaba             #+#    #+#             */
+/*   Updated: 2019/10/17 23:57:41 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+/*
+** Creation a strong hash function this code will be improved in
+*/
 
-size_t	ft_strspn(const char *str, const char *charset)
+#include "hashtable.h"
+
+uint64_t	ft_hash(void *key, uint64_t length)
 {
-	uint32_t	i;
-	uint32_t	count;
-	uint8_t		tab[256];
+	unsigned char	*p;
+	uint64_t		h;
+	uint64_t		i;
 
-	ft_bzero(tab, 256);
-
+	h = 2166136261UL;
+	p = (unsigned char *)key;
 	i = -1;
-	while (charset[++i])
-		tab[(int)charset[i]] = 1;
-
-	count = 0;
-	i = 0;
-	while (str[i] && tab[(int)str[i++]])
-		count++;
-	return ((str[count] != '\0' && tab[(int)str[count]]) ? count + 1 : count);
+	while (++i < length)
+		h = (h * 16777619) ^ p[i];
+	return (h);
 }

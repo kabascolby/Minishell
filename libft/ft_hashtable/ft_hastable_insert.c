@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 08:56:36 by lkaba             #+#    #+#             */
-/*   Updated: 2019/10/17 08:56:39 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/10/18 17:04:51 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,22 @@ static t_entry	*new_entry(void *key, void *item)
 	return (NULL);
 }
 
-static uint8_t	set_load_factor(t_hashtable **table)
+static int8_t	set_load_factor(t_hashtable **table)
 {
 	if (table && *table)
 	{
 		if ((float)(*table)->entries /
 			(float)(*table)->num_buckets > MAX_LOAD_FACTOR)
-			return (hashtab_grow(table));
+			return (hashtable_grow(table));
 		if ((float)(*table)->entries /
 			(float)(*table)->num_buckets < MIN_LOAD_FACTOR)
-			return (hashtab_shrink(table));
+			return (hashtable_shrink(table));
 		return (0);
 	}
 	return (-1);
 }
 
-uint32_t		hashtable_insert(t_hashtable **table, void *key, void *item)
+int32_t			hashtable_insert(t_hashtable **table, void *key, void *item)
 {
 	t_entry		*entry;
 	uint32_t	index;

@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 13:33:59 by lkaba             #+#    #+#             */
-/*   Updated: 2019/10/15 19:38:57 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/10/18 11:59:28 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,18 @@
 # include <string.h>
 # include <stdarg.h>
 # include <stdint.h>
+# include <stdlib.h>
 # include "get_next_line.h"
 # include "ft_printf/ft_printf.h"
+# include "ft_hashtable/hashtable.h"
 # include "doubly_link.h"
 # include "ft_deque.h"
 # define UNUSED(x) ((x)=(x))
 # define EVEN(n) (n % 2 == 0)
+# define ISEVEN(n) (n % 2 == 0)
 # define ODD (n % 2 == 1)
+# define ERROR_ALLOC_MESSAGE "Insufficient memory"
+# define MALLOC(n) (ft_get_malloc(n))
 typedef struct	s_list
 {
 	void			*content;
@@ -146,4 +151,5 @@ size_t			ft_strcspn(const char *str, const char *charset);
 uint64_t		ft_numdigit(uint64_t num);
 uint8_t			ft_isprime(uint32_t a);
 uint64_t		ft_find_next_prime(uint64_t n);
+void			*ft_get_malloc(size_t n);
 #endif

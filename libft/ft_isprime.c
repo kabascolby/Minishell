@@ -6,20 +6,22 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 18:30:52 by lkaba             #+#    #+#             */
-/*   Updated: 2019/10/15 19:11:10 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/10/17 23:49:24 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-uint8_t ft_isprime(uint32_t a)
+uint8_t	ft_isprime(uint32_t a)
 {
-	int c;
+	uint32_t	c;
 
-	for (c = 2; c <= a - 1; c++)
+	c = 2;
+	while (c <= a - 1)
 	{
 		if (a % c == 0)
-			return 0;
+			return (0);
+		c++;
 	}
-	return 1;
+	return (1);
 }

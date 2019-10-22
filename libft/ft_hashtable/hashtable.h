@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 19:37:47 by lkaba             #+#    #+#             */
-/*   Updated: 2019/10/17 23:28:46 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/10/18 21:59:43 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,26 +36,22 @@ struct						s_hashtable
 	uint64_t	entries;
 	uint64_t	num_buckets;
 	t_entry		**buckets;
-	t_hashtable *(*insert)(t_hashtable *, void *, void *);
-	t_hashtable *(*destroy)(t_hashtable **);
+	int32_t	(*insert)(t_hashtable **, void *, void *);
+	int8_t	 	(*destroy)(t_hashtable **);
 	t_entry		*(*get_entry)(t_hashtable *, void *);
 	void		*(*pop_item)(t_hashtable **, void *);
 	uint32_t	(*count_entry)(t_hashtable *);
 };
 
 t_hashtable					*hashtable_init(uint32_t len);
-uint64_t					hash(void *key, uint64_t length);
-uint32_t					hashtable_insert(t_hashtable **table,
+uint64_t					ft_hash(void *key, uint64_t length);
+int32_t					hashtable_insert(t_hashtable **table,
 								void *key, void *item);
-uint8_t						hashtable_rehash_table(t_hashtable **src,
-								t_hashtable **dest);
 t_entry						*hashtable_get_entry(t_hashtable *table, void *key);
-uint8_t						hashtable_destroy(t_hashtable **table);
-uint8_t						hashtable_grow(t_hashtable **table);
-uint8_t						hashtable_shrink(t_hashtable **table);
+int8_t						hashtable_destroy(t_hashtable **table);
+int8_t						hashtable_grow(t_hashtable **table);
+int8_t						hashtable_shrink(t_hashtable **table);
 void						free_entry(t_entry **entry);
 void						*hashtable_popitem(t_hashtable **table, void *key);
 uint32_t					hashtable_count_entries(t_hashtable *table);
-uint8_t						hashtable_rehash_entry(t_hashtable **dest,
-								t_entry **entry);
 #endif

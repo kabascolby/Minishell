@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 09:06:57 by lkaba             #+#    #+#             */
-/*   Updated: 2019/10/17 23:05:50 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/10/18 00:32:30 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	free_bucket(t_entry **head)
 	}
 }
 
-uint8_t		hashtable_destroy(t_hashtable **table)
+int8_t		hashtable_destroy(t_hashtable **table)
 {
 	uint32_t	i;
 

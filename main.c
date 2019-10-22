@@ -2,52 +2,26 @@
 
 extern char **environ;
 
-char **split_line(char *line)
-{
-	char		**tokens;
-	char		**tmp;
-	uint8_t 	bufsize;
-	uint16_t	i;
-
-	bufsize = TOK_BUFSIZE;
-	MALLOC(tokens, bufsize);
-	i = -1;
-	while ((tokens[++i] = ft_strtok_r(line, FILTER, &line)) != NULL)
-	{	
-		if(i + 1 >= TOK_BUFSIZE)
-		{
-			MALLOC(tmp, bufsize + TOK_BUFSIZE);
-			ft_memcpy((char **)tmp, (char **)tokens, bufsize * sizeof(char *));
-			bufsize += TOK_BUFSIZE;
-			FREE(tokens);
-			tokens = tmp;
-			tmp = NULL;
-		}
-	}
-	tokens[++i] = NULL;
-	for (int i = 0; tokens[i]; i++)
-		printf("%s\n", tokens[i]);
-	return tokens;	
-}
-
 void stdin_listenner(void)
 {
 	char	*line;
 	t_process	proc;
-	
+
 	PROMPT;
 	line = NULL;
 	ft_bzero((t_process *)&proc, sizeof(t_process));
 	if (get_next_line(1, &line) > 0)
 	{
-		printf("%s\n",line);
-		proc.list_tokens = split_line(line);
+		printf("line----------->%s\n",line);
+		proc.tokens = split_line(line);
 		 int p = 0;
 		if (0 == (p = fork()))
 		{
-			if(-1 == execlp(proc.list_tokens[0], proc.list_tokens[1], proc.list_tokens[2], NULL))
+			printf("p1 --> %s |p2-> %s |p3--> %s\n", proc.tokens[0], proc.tokens[1], proc.tokens[2]);
+
+			ft_printf("________________child_____________%d___%d\n", getpid(), p);
+			if(-1 == execlp(proc.tokens[0], proc.tokens[1], proc.tokens[2], NULL))
 				ft_putendl("invalide commmad");
-			// ft_printf("________________child_____________%d___%d\n", getpid(), p);
 		}
 		else
 		{
@@ -58,28 +32,12 @@ void stdin_listenner(void)
 	}
 }
 
-void parse_env(t_shell *shell, char **env)
-{
-	// get_env//to implemented later
-	uint16_t	len;
-	uint16_t	i;
-
-	len = 0;
-	while(env[++len])
-		;
-	shell->env = (char **)malloc(sizeof(char *) * (len + 1));
-	i = -1;
-	while(env[++i])
-		shell->env[i] = ft_strdup(env[i]);
-	shell->env[i] = NULL;
-	while(*shell->env)
-		ft_printf("%s\n", *shell->env++);
-}
-
 int main()
 {
 	t_shell	shell;
+
 	ft_bzero((t_shell *)&shell, sizeof(t_shell));
+	shell.ht = hashtable_init(INIT_HASHTABLE_SIZE);
 	parse_env(&shell, environ);
 	stdin_listenner();
 	return (0);
