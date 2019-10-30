@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 13:33:59 by lkaba             #+#    #+#             */
-/*   Updated: 2019/10/18 11:59:28 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/10/28 22:35:48 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,22 @@
 # include "ft_hashtable/hashtable.h"
 # include "doubly_link.h"
 # include "ft_deque.h"
-# define UNUSED(x) ((x)=(x))
+# include <errno.h>
+# define UNUSED(x, ...) (void)((void)x, ##__VA_ARGS__)
 # define EVEN(n) (n % 2 == 0)
 # define ISEVEN(n) (n % 2 == 0)
 # define ODD (n % 2 == 1)
 # define ERROR_ALLOC_MESSAGE "Insufficient memory"
 # define MALLOC(n) (ft_get_malloc(n))
+# define SE_(a, b) (ft_strequ((a), (b)))
+# define SE_2(a, b, c) (SE_(a, c) || SE_(b, c))
+# define SE_3(a, b, c, d) (SE_2(a, b, d) || SE_(c, d))
+# define SE_4(a, b, c, d, e) (SE_2(a, b, c) || SE_2(a, d, e))
+# define SE_5(a, b, c, d, e, f) (SE_3(a, b, c, d) || SE_2(a, e, f))
+# define RV_(a, b) (SE_(a , b) ? 1 : 0)
+# define RV_2(a, b, c) ((!RV_(a, c) &&  RV_(b, c) == 1) ? 2 : 0)
+# define RV_3(a, b, c, d) ((!RV_2(a, b, d) != 2) && SE_3(a, b, c, d) ? 3 : 0)
+# define MAX(a, b) (a > b ? a : b)
 typedef struct	s_list
 {
 	void			*content;
@@ -152,4 +162,16 @@ uint64_t		ft_numdigit(uint64_t num);
 uint8_t			ft_isprime(uint32_t a);
 uint64_t		ft_find_next_prime(uint64_t n);
 void			*ft_get_malloc(size_t n);
+/*
+** Take a separator char[0] with list of arguments terminated by NULL
+** return a copy of joingned arguments
+*/
+char			*ft_join_args(char *sep, ...);
+/*
+** Display the appropriate error message and exit;
+** prog: cmd name | errstr: str argument(s) | reason: why error
+** opt: exit or not;
+*/
+void	ft_errexit(const char *prog, char *errstr,
+	const char *reason, uint8_t opt);
 #endif

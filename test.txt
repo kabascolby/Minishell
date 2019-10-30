@@ -1,0 +1,16 @@
+I read this https://stackoverflow.com/questions/23235910/variadic-unused-function-macro
+and other  articles about how to void unused arguments or variables
+the solution was about 10 lines. I came up with this solution:
+#define UNUSED(x, ...) (void)((void)x, ##__VA_ARGS__)
+ex:
+int main(int argc, char *argv[])
+{
+    int e;
+    char **a;
+	char *c;
+    UNUSED(argc, argv, e, a, c);
+
+    return 0;
+}
+
+maybe someone have better solution...

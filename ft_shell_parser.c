@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 19:45:25 by lkaba             #+#    #+#             */
-/*   Updated: 2019/10/18 22:12:06 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/10/28 20:15:27 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	**split_line(char *line)
 {
 	char		**tokens;
 	char		**tmp;
-	uint8_t 	bufsize;
+	uint16_t	bufsize;
 	uint16_t	i;
 
 	bufsize = TOK_BUFSIZE;
@@ -43,7 +43,7 @@ char	**split_line(char *line)
 	i = -1;
 	while ((tokens[++i] = ft_strtok_r(line, FILTER, &line)) != NULL)
 	{
-		if(i + 1 >= TOK_BUFSIZE)
+		if (i + 1 >= TOK_BUFSIZE)
 		{
 			tmp = MALLOC(bufsize + TOK_BUFSIZE);
 			ft_memcpy((char **)tmp, (char **)tokens, bufsize * sizeof(char *));
@@ -54,7 +54,5 @@ char	**split_line(char *line)
 		}
 	}
 	tokens[i] = NULL;
-	for (int i = 0; tokens[i]; i++)
-		printf("%s\n", tokens[i]);
-	return tokens;
+	return (tokens);
 }
