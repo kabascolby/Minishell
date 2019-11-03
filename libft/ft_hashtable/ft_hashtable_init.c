@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 19:23:28 by lkaba             #+#    #+#             */
-/*   Updated: 2019/10/18 00:06:25 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/11/01 11:05:53 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void	init_hashtable_fnptr(t_hashtable **table)
 {
 	(*table)->insert = hashtable_insert;
+	(*table)->update = hashtable_update;
 	(*table)->destroy = hashtable_destroy;
 	(*table)->get_entry = hashtable_get_entry;
 	(*table)->pop_item = hashtable_popitem;

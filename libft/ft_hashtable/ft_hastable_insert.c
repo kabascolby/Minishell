@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 08:56:36 by lkaba             #+#    #+#             */
-/*   Updated: 2019/10/18 17:04:51 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/11/01 11:27:46 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,19 @@ int32_t			hashtable_insert(t_hashtable **table, void *key, void *item)
 			(*table)->entries += 1;
 			return (index);
 		}
+	}
+	return (-1);
+}
+
+int8_t			hashtable_update(t_hashtable **table, void *key, void *item)
+{
+	t_entry *entry;
+
+	if((entry = hashtable_get_entry(*table, key)))
+	{
+		free(entry->item);
+		entry->item = item;
+		return (1);
 	}
 	return (-1);
 }
