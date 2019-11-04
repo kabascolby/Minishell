@@ -6,21 +6,11 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 10:14:14 by lkaba             #+#    #+#             */
-/*   Updated: 2019/11/02 22:55:46 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/11/03 08:03:54 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	(*g_fptr[])(t_shell *, char **) =
-{
-	cmd_echo,
-	cmd_cd,
-	cmd_env,
-	cmd_setenv,
-	cmd_unsetenv,
-	cmd_exit
-};
 
 char		**get_table(t_hashtable *ht)
 {
@@ -54,13 +44,12 @@ int8_t		get_index(t_shell *s, char *cmd, ...)
 {
 	uint8_t	i;
 	va_list	args;
-	char	*t;
 
 	va_start(args, cmd);
 	i = 0;
-	while (i < s->fptr_len && (t = va_arg(args, char *)))
+	while (i < s->fptr_len)
 	{
-		if (SE_(t, cmd))
+		if (SE_(va_arg(args, char *), cmd))
 			break ;
 		i++;
 	}

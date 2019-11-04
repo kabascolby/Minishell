@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 19:45:25 by lkaba             #+#    #+#             */
-/*   Updated: 2019/11/02 22:50:26 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/11/03 08:28:42 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,11 @@
 **Calling ft_strtok twice to split each line by equal sign
 */
 
-
-
-void	parse_env(t_shell *s)
+void	parse_env(t_shell *s, char **env)
 {
 	char *key;
 	char *value;
-	char **env;
 
-	env = environ - 1;
 	while (*++env)
 	{
 		key = ft_strdup(ft_strtok_r(*env, "=", env));
