@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 13:33:59 by lkaba             #+#    #+#             */
-/*   Updated: 2019/10/28 22:35:48 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/11/09 09:32:44 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@
 # define RV_2(a, b, c) ((!RV_(a, c) &&  RV_(b, c) == 1) ? 2 : 0)
 # define RV_3(a, b, c, d) ((!RV_2(a, b, d) != 2) && SE_3(a, b, c, d) ? 3 : 0)
 # define MAX(a, b) (a > b ? a : b)
+
+typedef enum 	s_bool
+{
+	false,
+	true
+}				t_bool;
+
 typedef struct	s_list
 {
 	void			*content;

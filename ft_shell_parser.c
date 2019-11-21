@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 19:45:25 by lkaba             #+#    #+#             */
-/*   Updated: 2019/11/03 08:28:42 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/11/20 21:42:40 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@
 
 void	parse_env(t_shell *s, char **env)
 {
-	char *key;
-	char *value;
+	char	*key;
+	char	*value;
+	t_entry	*shell_path;
 
 	while (*++env)
 	{
@@ -28,6 +29,45 @@ void	parse_env(t_shell *s, char **env)
 		value = ft_strdup(ft_strtok_r(*env, "=", env));
 		s->ht->insert(&s->ht, key, value);
 	}
+
+	if (s->ht && (shell_path = s->ht->get_entry(s->ht, "SHELL")))
+		s->ht->update(&s->ht, shell_path->key, "./minishell");
+}
+
+char	*token_handler(char *s, const char *filter, char **save)
+{
+	char *ret;
+	int t;
+
+	t = ft_strcspn(s, filter);
+
+	if (s[t] == ' ')
+	{
+		ret = ft_strtok_r(s, " ", save);
+		if (*ret == '#')
+		{
+			*save = NULL;
+			return (NULL);
+		}
+		return (ret);
+	}
+	else if (s[t] == (char)34)
+	{
+		ret = ft_strtok_r(s, "\"", save);
+		if (*ret == '#')
+		{
+			*save = NULL;
+			return (NULL);
+		}
+		return (ret);
+	}
+	else if (s[t] == (char)35)
+	{
+		*save = NULL;
+		s[t] = '\0';
+		return (NULL);
+	}
+	return ft_strtok_r(s, filter, save);
 }
 
 char	**split_line(char *line)
@@ -36,11 +76,12 @@ char	**split_line(char *line)
 	char		**tmp;
 	uint16_t	bufsize;
 	uint16_t	i;
+	char filters[] = {FILTERS};
 
 	bufsize = TOK_BUFSIZE;
 	tokens = MALLOC(bufsize * sizeof(char **));
 	i = -1;
-	while ((tokens[++i] = ft_strtok_r(line, FILTER, &line)) != NULL)
+	while ((tokens[++i] = token_handler(line, filters, &line)) != NULL)
 	{
 		if (i + 1 >= TOK_BUFSIZE)
 		{
@@ -55,3 +96,37 @@ char	**split_line(char *line)
 	tokens[i] = NULL;
 	return (tokens);
 }
+
+// int get_token(char *s, const char *filter, char **save_ptr)
+// {
+// 	if(s == NULL)
+// 		s = *save_ptr;
+// 	if(*s == '\0')
+// 	{
+// 		*save_ptr = s;
+// 		return (NULL);
+// 	}
+// 	return ft_strspn(s, filter);
+// }
+
+// t_command	*command_handler(char *buff, t_command **h)
+// {
+// 	t_command *new_command;
+// 	t_command *tmp;
+// 	if (!buff || !*buff)
+// 		return (h);
+// 	new_command = MALLOC(sizeof(t_command));
+// 	*h = new_command;
+// 	while()
+
+// }
+
+// char *tokenizer()
+
+// else
+// 	{
+// 		tmp = *h;
+// 		while(tmp && tmp->next)
+// 			tmp = tmp->next;
+// 		tmp->next = new_command;
+// 	}

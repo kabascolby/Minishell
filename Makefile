@@ -6,7 +6,7 @@
 #    By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/07 05:25:18 by lkaba             #+#    #+#              #
-#    Updated: 2019/10/18 16:47:16 by lkaba            ###   ########.fr        #
+#    Updated: 2019/11/20 14:20:43 by lkaba            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,9 @@ $(HASHTABLE):
 
 %.o: %.c minishell.h
 	gcc $(FLAGS) -c $<
+
+debug: $(PLIBFT) $(HASHTABLE) $(OFILES)
+	@gcc -g $(FLAGS) $^ -o $@
 
 clean:
 	@/bin/rm -f $(FILES:.c=.o)

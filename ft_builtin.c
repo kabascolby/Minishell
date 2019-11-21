@@ -6,35 +6,36 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 12:13:58 by lkaba             #+#    #+#             */
-/*   Updated: 2019/11/03 23:03:27 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/11/14 18:45:31 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//TODO: check this function properly
+
 void	cmd_cd(t_shell *s, char **args)
 {
 	char	*cwd;
 	char	*path;
+	char	*error;
 
-	path = NULL;
-	if (!*args && -1 == chdir(s->ht->get_entry(s->ht, "HOME")->item))
-		ft_errexit(*(args - 1), "Can't change to home directory.", *args, 0);
-	else if (*args && *args[0] != '/' && (cwd = NULL))
+	error = NULL;
+	if (!*args && chdir(s->ht->get_entry(s->ht, "HOME")->item))
+		error = NODIR;
+	if (*args && *args[0] != '/' && (cwd = NULL))
 	{
 		if (NULL == getcwd(cwd, 145))
-			return (ft_errexit(*(args - 1), NOPATH, *args, 0));
-		path = ft_join_args("/", cwd, *args, NULL);
-		FREE(cwd);
-		if (-1 == chdir(path))
-			ft_errexit(*(args - 1), "no such file or directory", *args, 0);
+			error = NOPATH;
+		if (!(path = ft_join_args("/", cwd, *args, NULL)) || -1 == chdir(path))
+			error = NOFDIR;
+		cwd ? free(cwd) : 0;
+		path ? free(path) : 0;
 	}
-	else if (*args && args[1])
-		ft_errexit(*(args - 1), "string not in pwd", *args, 0);
-	else if (-1 == chdir(*args))
-		ft_errexit(*(args - 1), "no such file or directory", *args, 0);
-	else
-		FREE(path);
+	else if ((*args && args[1]) || -1 == chdir(*args))
+		error = args[1] ? NOSTR : NOFDIR;
+	if (error)
+		ft_errexit(*(args - 1), error, *args, 0);
 }
 
 void	cmd_echo(t_shell *s, char **args)
@@ -60,6 +61,9 @@ void	cmd_env(t_shell *s, char **args)
 			ft_printf("%s\n", *env++);
 	//TODO: free env
 }
+
+
+//TODO: create a new environment if the env is NULL
 
 void	cmd_setenv(t_shell *s, char **args)
 {
@@ -105,10 +109,9 @@ void	cmd_unsetenv(t_shell *s, char **args)
 
 void	cmd_exit(t_shell *s, char **args)
 {
-	UNUSED(args);
-	FREE(s->line);
-	// kill(s->proc->id, SIGKILL);
-	// FREE(s->proc->tokens);
+	UNUSED(args, s);
+	// if(s->line)
+	// 	FREE(s->line);
 	//TODO make sure to free all the buckets
 	exit(1);
 }

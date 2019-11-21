@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 10:14:14 by lkaba             #+#    #+#             */
-/*   Updated: 2019/11/03 08:03:54 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/11/18 03:30:12 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,25 @@ int8_t		get_index(t_shell *s, char *cmd, ...)
 	}
 	va_end(args);
 	return (i ? i : -1);
+}
+
+/*
+**disable canonical mode (buffered i/o) and local echo
+**set the new settings immediately
+*/
+
+void		set_unbeffered(void)
+{
+	t_termios new_term_attr;
+
+	tcgetattr(STDIN_FILENO, &new_term_attr);
+	new_term_attr.c_lflag &= (~ICANON & ~ECHO);
+	tcsetattr(STDIN_FILENO, TCSANOW, &new_term_attr);
+	new_term_attr.c_cc[VMIN] = 1;
+	new_term_attr.c_cc[VTIME] = 0;
+}
+
+void		reset_terminal(t_shell *s)
+{
+	tcsetattr(STDIN_FILENO, TCSANOW, &s->old_t_attr);
 }
