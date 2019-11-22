@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 19:45:25 by lkaba             #+#    #+#             */
-/*   Updated: 2019/11/20 21:42:40 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/11/21 11:07:52 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,11 @@ char	*token_handler(char *s, const char *filter, char **save)
 		}
 		return (ret);
 	}
+	else if (s[t] == '$')
+	{
+		if(s[t + 1] == '$')
+			ft_printf("%d", getpid());
+	}
 	else if (s[t] == (char)35)
 	{
 		*save = NULL;
@@ -79,13 +84,13 @@ char	**split_line(char *line)
 	char filters[] = {FILTERS};
 
 	bufsize = TOK_BUFSIZE;
-	tokens = MALLOC(bufsize * sizeof(char **));
+	tokens = MALLOC(bufsize * sizeof(char *));
 	i = -1;
 	while ((tokens[++i] = token_handler(line, filters, &line)) != NULL)
 	{
-		if (i + 1 >= TOK_BUFSIZE)
+		if (i + 1 >= bufsize)
 		{
-			tmp = MALLOC(bufsize + TOK_BUFSIZE);
+			tmp = MALLOC((bufsize + TOK_BUFSIZE) * sizeof(char *));
 			ft_memcpy((char **)tmp, (char **)tokens, bufsize * sizeof(char *));
 			bufsize += TOK_BUFSIZE;
 			FREE(tokens);
@@ -96,6 +101,8 @@ char	**split_line(char *line)
 	tokens[i] = NULL;
 	return (tokens);
 }
+
+
 
 // int get_token(char *s, const char *filter, char **save_ptr)
 // {
@@ -130,3 +137,5 @@ char	**split_line(char *line)
 // 			tmp = tmp->next;
 // 		tmp->next = new_command;
 // 	}
+
+//todo write a malloc pointer tracker will mae your life easier

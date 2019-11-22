@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 10:18:43 by lkaba             #+#    #+#             */
-/*   Updated: 2019/11/20 21:38:43 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/11/21 11:42:41 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@
 # include <sys/wait.h>
 # include "libft/libft.h"
 # define PROMPT ft_putstr("$> ")
-# define TOK_BUFSIZE 10
+# define TOK_BUFSIZE 2
+
 // # define FILTER " \\\t\"\r\a#d"
 # define _PATH_BSHELL "/bin"
 # define _PATH_CSHELL "/bin/csh"

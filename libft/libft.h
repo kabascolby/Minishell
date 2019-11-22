@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 13:33:59 by lkaba             #+#    #+#             */
-/*   Updated: 2019/11/09 09:32:44 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/11/21 11:25:25 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include "ft_hashtable/hashtable.h"
 # include "doubly_link.h"
 # include "ft_deque.h"
+# include "ft_mem_track.h"
 # include <errno.h>
 # define UNUSED(x, ...) (void)((void)x, ##__VA_ARGS__)
 # define EVEN(n) (n % 2 == 0)

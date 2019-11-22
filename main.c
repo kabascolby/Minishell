@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 10:04:57 by lkaba             #+#    #+#             */
-/*   Updated: 2019/11/15 15:08:12 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/11/21 11:53:20 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	main(int argc, char **argv, char **environ)
 {
 	t_shell		shell;
-
 	ft_bzero((t_shell *)&shell, sizeof(t_shell));
 	UNUSED(argc, argv);
 	tcgetattr(STDIN_FILENO, &shell.old_t_attr);
