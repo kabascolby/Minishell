@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 19:45:25 by lkaba             #+#    #+#             */
-/*   Updated: 2019/11/21 11:07:52 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/11/26 19:53:26 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,17 @@ void	parse_env(t_shell *s, char **env)
 		s->ht->update(&s->ht, shell_path->key, "./minishell");
 }
 
-char	*token_handler(char *s, const char *filter, char **save)
+char	*token_handler(t_shell *s, char *line, const char *filter, char **save)
 {
 	char *ret;
+	char *temp;
 	int t;
 
-	t = ft_strcspn(s, filter);
+	t = ft_strcspn(line, filter);
 
-	if (s[t] == ' ')
+	if (line[t] == ' ')
 	{
-		ret = ft_strtok_r(s, " ", save);
+		ret = ft_strtok_r(line, " ", save);
 		if (*ret == '#')
 		{
 			*save = NULL;
@@ -51,9 +52,10 @@ char	*token_handler(char *s, const char *filter, char **save)
 		}
 		return (ret);
 	}
-	else if (s[t] == (char)34)
+	else if (line[t] == (char)34)
 	{
-		ret = ft_strtok_r(s, "\"", save);
+		ft_printf("%d\n", t);
+		ret = ft_strtok_r(line, "\"", save);
 		if (*ret == '#')
 		{
 			*save = NULL;
@@ -61,32 +63,52 @@ char	*token_handler(char *s, const char *filter, char **save)
 		}
 		return (ret);
 	}
-	else if (s[t] == '$')
+	else if (line[t] == '$')
 	{
-		if(s[t + 1] == '$')
-			ft_printf("%d", getpid());
+		if (line[t + 1] == '$')
+		{
+			// *save = s->mt->track(&s->mt, ft_str_cat_free())
+			if (t > 0)
+			{
+				ret = s->mt->track(&s->mt, ft_strnew(ft_strlen(line) + 3));
+				line[t] = '\0';
+				ft_strcat(ret, line);
+				temp = ft_itoa(s->parent_id);
+				ft_strcat(ret, temp);
+				line = ft_strcat(ret, &line[t + 2]);
+				return (ft_strtok_r(line, filter, save));
+				// ret = s->mt->track(&s->mt, ft_join_args("",line, ft_itoa(s->parent_id), &line[t + 1]));
+			}
+			*save = &line[t + 2];
+			return (s->mt->track(&s->mt, ft_itoa(s->parent_id)));
+		}
+		return ft_strtok_r(line, " ", save);
 	}
-	else if (s[t] == (char)35)
+	else if (line[t] == (char)35)
 	{
 		*save = NULL;
-		s[t] = '\0';
+		line[t] = '\0';
 		return (NULL);
 	}
-	return ft_strtok_r(s, filter, save);
+	return (ft_strtok_r(line, filter, save));
 }
+// char	*convert_2dollards(char *s)
+// {
 
-char	**split_line(char *line)
+// }
+
+char	**split_line(t_shell *s)
 {
 	char		**tokens;
 	char		**tmp;
 	uint16_t	bufsize;
 	uint16_t	i;
-	char filters[] = {FILTERS};
 
+	s->filters = (const char[]){FILTERS};
 	bufsize = TOK_BUFSIZE;
 	tokens = MALLOC(bufsize * sizeof(char *));
 	i = -1;
-	while ((tokens[++i] = token_handler(line, filters, &line)) != NULL)
+	while ((tokens[++i] = token_handler(s, s->line, s->filters, &s->line)) != 0)
 	{
 		if (i + 1 >= bufsize)
 		{
@@ -113,7 +135,7 @@ char	**split_line(char *line)
 // 		*save_ptr = s;
 // 		return (NULL);
 // 	}
-// 	return ft_strspn(s, filter);
+// 	return ft_strspn(line, filter);
 // }
 
 // t_command	*command_handler(char *buff, t_command **h)

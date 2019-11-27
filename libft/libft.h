@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 13:33:59 by lkaba             #+#    #+#             */
-/*   Updated: 2019/11/21 11:25:25 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/11/25 09:07:54 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include "ft_hashtable/hashtable.h"
 # include "doubly_link.h"
 # include "ft_deque.h"
-# include "ft_mem_track.h"
+# include "memtrack.h"
 # include <errno.h>
 # define UNUSED(x, ...) (void)((void)x, ##__VA_ARGS__)
 # define EVEN(n) (n % 2 == 0)
@@ -29,6 +29,7 @@
 # define ODD (n % 2 == 1)
 # define ERROR_ALLOC_MESSAGE "Insufficient memory"
 # define MALLOC(n) (ft_get_malloc(n))
+# define FREE(p) do { free(p); p = NULL;} while(0)
 # define SE_(a, b) (ft_strequ((a), (b)))
 # define SE_2(a, b, c) (SE_(a, c) || SE_(b, c))
 # define SE_3(a, b, c, d) (SE_2(a, b, d) || SE_(c, d))
@@ -39,7 +40,7 @@
 # define RV_3(a, b, c, d) ((!RV_2(a, b, d) != 2) && SE_3(a, b, c, d) ? 3 : 0)
 # define MAX(a, b) (a > b ? a : b)
 
-typedef enum 	s_bool
+typedef enum	e_bool
 {
 	false,
 	true
@@ -180,6 +181,6 @@ char			*ft_join_args(char *sep, ...);
 ** prog: cmd name | errstr: str argument(s) | reason: why error
 ** opt: exit or not;
 */
-void	ft_errexit(const char *prog, char *errstr,
-	const char *reason, uint8_t opt);
+void			ft_errexit(const char *prog, char *errstr,
+const char *reason, uint8_t opt);
 #endif

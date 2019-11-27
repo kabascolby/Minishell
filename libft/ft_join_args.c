@@ -6,10 +6,9 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 07:49:28 by lkaba             #+#    #+#             */
-/*   Updated: 2019/10/26 08:51:07 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/11/24 21:55:56 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "libft.h"
 
@@ -27,7 +26,6 @@ char	*ft_join_args(char *sep, ...)
 		ft_strcat(strdest, t);
 		strdest[ft_strlen(strdest)] = *sep;
 	}
-
 	if ((size = ft_strlen(strdest)))
 		strdest[size - 1] = 0;
 	else

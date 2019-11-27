@@ -6,32 +6,11 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 01:18:17 by lkaba             #+#    #+#             */
-/*   Updated: 2019/11/21 08:42:08 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/11/25 12:27:19 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-**help to display debug your ouput in another terminal
-**open terminal filename and grab the filedescriptor and diplay
-**the result
-**@params: dev: tty terminal device, result: the value to display
-**@params: fptr: function pointer to putstr_fd, putnbr_fd...
-*/
-
-// static void	ft_debug_output(char *dev, char *res,
-// void (*fptr)(const char *arg, int num))
-// {
-// 	static int fd;
-
-// 	if (!fd && (fd = open(dev, 1)) == -1)
-// 	{
-// 		ft_putendl("error opennig fd");
-// 		return ;
-// 	}
-// 	fptr(res, fd);
-// }
 
 void	nothing(int num)
 {
@@ -51,8 +30,10 @@ static void	create_process(t_shell *s)
 
 	s->proc->id = getpid();
 	path = ft_join_args("/", _PATH_BSHELL, *s->proc->tokens, NULL);
-	if (-1 == execve(path, s->proc->tokens, get_table(s->ht)))
-		ft_putendl("invalide commmad");
+	if (-1 == (s->proc->status =
+	execve(path, s->proc->tokens, get_table(s->ht))))
+		ft_errexit(*s->proc->tokens, "invalide commmad", NULL, 0);
+		// ft_putendl("invalide commmad");
 	FREE(path);
 	exit(0);
 }
@@ -97,12 +78,11 @@ static t_bool	is_quote_balanced(char *s)
 static int16_t	read_stdin(t_shell *s)
 {
 	ssize_t	i;
-	int16_t r;
 	char	c;
 
 	i = -1;
-	ft_memset(s->line, 0, sizeof(s->line));
-	while ((r = read(STDIN_FILENO, &c, 1)) > 0)
+	s->line = s->mt->track(&s->mt, ft_strnew(1024));
+	while ((read(STDIN_FILENO, &c, 1)) > 0)
 	{
 		if (c == 27 && arrow_keys_handler(i, read))
 			continue;
@@ -132,7 +112,7 @@ static int16_t	read_stdin(t_shell *s)
 			s->line[++i] = c;
 		// printf("i = %zd | c = %c val = %d\n", i, c, c == 0x7f);
 	}
-	return r;
+	return true;
 }
 
 void	stdin_listenner(t_shell *s)
@@ -147,7 +127,7 @@ void	stdin_listenner(t_shell *s)
 	if(read_stdin(s))
 	{
 		printf("\nline----------->%s|\n", s->line);
-		proc.tokens = split_line(s->line);
+		proc.tokens = split_line(s);
 		idx = get_index(s, proc.tokens[0], TOKENS);
 		if (idx >= 0 && idx < s->fptr_len)
 			g_fptr[idx](s, proc.tokens + 1);

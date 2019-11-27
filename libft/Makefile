@@ -87,6 +87,7 @@ FILES = ft_countwords.c\
 		ft_get_malloc.c\
 		ft_join_args.c\
 		ft_errexit.c\
+		memtrack.c\
 		ft_debug.c
 
 OFILES = $(FILES:.c=.o)
