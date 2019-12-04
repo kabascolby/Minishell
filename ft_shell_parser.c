@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 19:45:25 by lkaba             #+#    #+#             */
-/*   Updated: 2019/11/26 19:53:26 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/03 10:15:34 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ void	parse_env(t_shell *s, char **env)
 char	*token_handler(t_shell *s, char *line, const char *filter, char **save)
 {
 	char *ret;
-	char *temp;
+	// char *temp;
+	(void)s; //remove it later
 	int t;
 
 	t = ft_strcspn(line, filter);
@@ -45,70 +46,45 @@ char	*token_handler(t_shell *s, char *line, const char *filter, char **save)
 	if (line[t] == ' ')
 	{
 		ret = ft_strtok_r(line, " ", save);
-		if (*ret == '#')
-		{
-			*save = NULL;
-			return (NULL);
-		}
 		return (ret);
 	}
 	else if (line[t] == (char)34)
 	{
-		ft_printf("%d\n", t);
+		// ft_printf("%d\n", t);
 		ret = ft_strtok_r(line, "\"", save);
-		if (*ret == '#')
-		{
-			*save = NULL;
-			return (NULL);
-		}
 		return (ret);
 	}
-	else if (line[t] == '$')
-	{
-		if (line[t + 1] == '$')
-		{
-			// *save = s->mt->track(&s->mt, ft_str_cat_free())
-			if (t > 0)
-			{
-				ret = s->mt->track(&s->mt, ft_strnew(ft_strlen(line) + 3));
-				line[t] = '\0';
-				ft_strcat(ret, line);
-				temp = ft_itoa(s->parent_id);
-				ft_strcat(ret, temp);
-				line = ft_strcat(ret, &line[t + 2]);
-				return (ft_strtok_r(line, filter, save));
-				// ret = s->mt->track(&s->mt, ft_join_args("",line, ft_itoa(s->parent_id), &line[t + 1]));
-			}
-			*save = &line[t + 2];
-			return (s->mt->track(&s->mt, ft_itoa(s->parent_id)));
-		}
-		return ft_strtok_r(line, " ", save);
-	}
-	else if (line[t] == (char)35)
-	{
-		*save = NULL;
-		line[t] = '\0';
-		return (NULL);
-	}
+
 	return (ft_strtok_r(line, filter, save));
 }
-// char	*convert_2dollards(char *s)
-// {
 
-// }
+/*
+**Using coumpound literral to create a char array and
+**retuning a value to a pointer
+*/
 
-char	**split_line(t_shell *s)
+
+void split_line(t_shell *s, t_vector *v)
+{
+	char *ptr;
+
+	s->filters = (char[]){FILTERS};
+	while ((ptr = token_handler(s, s->dstr->buff, s->filters, &s->dstr->buff)))
+		v->vector_add(v, ptr);
+}
+
+
+/* char	**split_line(t_shell *s)
 {
 	char		**tokens;
 	char		**tmp;
 	uint16_t	bufsize;
 	uint16_t	i;
-
-	s->filters = (const char[]){FILTERS};
+	s->filters = (char[]){FILTERS};
 	bufsize = TOK_BUFSIZE;
 	tokens = MALLOC(bufsize * sizeof(char *));
 	i = -1;
-	while ((tokens[++i] = token_handler(s, s->line, s->filters, &s->line)) != 0)
+	while ((tokens[++i] = token_handler(s, s->dstr->buff, s->filters, &s->dstr->buff)) != 0)
 	{
 		if (i + 1 >= bufsize)
 		{
@@ -122,7 +98,7 @@ char	**split_line(t_shell *s)
 	}
 	tokens[i] = NULL;
 	return (tokens);
-}
+} */
 
 
 

@@ -87,6 +87,10 @@ FILES = ft_countwords.c\
 		ft_get_malloc.c\
 		ft_join_args.c\
 		ft_errexit.c\
+		ft_vector_part1.c\
+		ft_vector_part2.c\
+		ft_dstr_part1.c\
+		ft_dstr_part2.c\
 		memtrack.c\
 		ft_debug.c
 

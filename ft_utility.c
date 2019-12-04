@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 10:14:14 by lkaba             #+#    #+#             */
-/*   Updated: 2019/11/18 03:30:12 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/11/28 19:02:59 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char		**get_table(t_hashtable *ht)
 			tmp = ht->buckets[i];
 			while (tmp)
 			{
-				tab[++j] = ft_join_args("=", tmp->key, tmp->item, NULL);
+				tab[++j] = ft_join_args("", tmp->key, "=", tmp->item, NULL);
 				tmp = tmp->next;
 			}
 			tab[j + 1] = NULL;

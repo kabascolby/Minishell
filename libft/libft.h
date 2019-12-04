@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 13:33:59 by lkaba             #+#    #+#             */
-/*   Updated: 2019/11/25 09:07:54 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/11/30 21:51:24 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include "doubly_link.h"
 # include "ft_deque.h"
 # include "memtrack.h"
+# include "vector.h"
+# include "dynamic_str.h"
 # include <errno.h>
 # define UNUSED(x, ...) (void)((void)x, ##__VA_ARGS__)
 # define EVEN(n) (n % 2 == 0)
@@ -30,6 +32,11 @@
 # define ERROR_ALLOC_MESSAGE "Insufficient memory"
 # define MALLOC(n) (ft_get_malloc(n))
 # define FREE(p) do { free(p); p = NULL;} while(0)
+# define CE_(a, b) ((a) == (b))
+# define CE_2(a, b, c) (CE_(a, b) || CE_(a, c))
+# define CE_3(a, b, c, d) (CE_(a, b) || CE_(a, c) || CE_(a, d))
+# define CE_4(a, b, c, d, e) (CE_2(a, b, c) || CE_2(a, d, e))
+# define CE_5(a, b, c, d, e, f) (CE_3(a, b, c, d) || CE_2(a, e, f))
 # define SE_(a, b) (ft_strequ((a), (b)))
 # define SE_2(a, b, c) (SE_(a, c) || SE_(b, c))
 # define SE_3(a, b, c, d) (SE_2(a, b, d) || SE_(c, d))
@@ -39,6 +46,8 @@
 # define RV_2(a, b, c) ((!RV_(a, c) &&  RV_(b, c) == 1) ? 2 : 0)
 # define RV_3(a, b, c, d) ((!RV_2(a, b, d) != 2) && SE_3(a, b, c, d) ? 3 : 0)
 # define MAX(a, b) (a > b ? a : b)
+# define STRINGIFY(x) #x
+# define LENGTH(x) (sizeof(STRINGIFY(x)) - 1)
 
 typedef enum	e_bool
 {
