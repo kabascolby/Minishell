@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 10:18:43 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/03 18:30:11 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/08 17:44:07 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,15 @@
 # include <termios.h>
 # include <unistd.h>
 # include <string.h>
+# include <limits.h>
 # include <signal.h>
 # include <errno.h>
 # include <dirent.h>
 # include <sys/wait.h>
 # include "libft/libft.h"
+# define QT 1u
+# define DQT 2u
+# define MINIMIZING 2u
 # define LIGHT_RED "\033[1;31m"
 # define NO_COLOUR "\033[0m"
 # define PROMPT ft_putstr(LIGHT_RED"$> "NO_COLOUR)
@@ -39,8 +43,8 @@
 **39 = s_quote; 36:$ ampercent; 127: delete;
 */
 
-# define FILTERS 32, 8, 9, 34, 36, 39, 92, 0
-# define SPCIDX	{['$'] = 1, ['#'] = 2}
+// # define FILTERS 32, 8, 9, 34, 36, 39, 92, 0
+# define SPCIDX	{['$'] = 1, ['#'] = 2, [34] = 2, [39] = 2}
 # define KEY1 [9] = 1, [10] = 2, [27] = 3,
 # define KEY2 [34] = 4, [39] = 5, [127] = 6
 # define KEYMAP(...) {__VA_ARGS__}
@@ -59,7 +63,7 @@ typedef struct s_command	t_command;
 // typedef struct s_tokens		t_tokens;
 typedef struct termios		t_termios;
 typedef void 				(*const sig_ptr)(int);
-typedef void				(*sc_fptr)(t_shell *, int);
+typedef void				(*sc_fptr)(t_shell *, int *);
 
 /*
 ** function pointer for key
@@ -72,7 +76,6 @@ struct						s_command
 	t_vector		*vec;
 	int				status;
 	pid_t			id;
-	// uint8_t			is_thing;
 	t_command		*next;
 };
 struct						s_shell
@@ -82,9 +85,7 @@ struct						s_shell
 	t_hashtable		*ex;
 	t_memtrack		*mt;
 	t_dstr			*dstr;
-	uint8_t			is_quote;
-	uint8_t			is_dquote;
-	char			*filters;
+	char 			isquote;
 	t_dllnode		history;
 	pid_t			parent_id;
 	uint16_t		id;
@@ -116,10 +117,10 @@ void						cmd_exit(t_shell *s, char **args);
 /*
 **Special charactere handler
 */
-void						dollard_handler(t_shell *s, int idx);
-void						ddollard_handler(t_shell *s, int idx);
-void						hash_handler(t_shell *s, int idx);
-void						unhandled_spchar(t_shell *s, int idx);
+void						dollard_handler(t_shell *s, int *idx);
+void						ddollard_handler(t_shell *s, int *idx);
+void						hash_handler(t_shell *s, int *idx);
+void						quote_handler(t_shell *s, int *idx);
 
 /*
 **keymap handler:each key pressed jump to a specific function
@@ -142,10 +143,27 @@ static void					(* const g_fptr[])(t_shell *, char **) =
 	cmd_echo,
 	cmd_cd,
 	cmd_env,
-
 	cmd_setenv,
 	cmd_unsetenv,
 	cmd_exit
+};
+
+/*
+**If you update  g_spchar make sure to update the
+**function pointer array in scpecial_char_converter
+*/
+const static char g_spchar[INT8_MAX] =
+{
+	['$'] = 1,
+	['#'] = 2,
+	[34] = 3,
+	[39] = 3
+};
+
+const static char index_char[UINT8_MAX] =
+{
+	[9] = 1, [10] = 2, [27] = 3,
+	[34] = 4, [39] = 4, [127] = 5
 };
 
 /*
@@ -159,8 +177,7 @@ static  kptr const g_keys[] =
 	fn_tab,//9
 	fn_new_line,//10
 	fn_with_esc,//27
-	fn_dquote,//34
-	fn_quote, //39
+	fn_quote, //34 //39
 	fn_delete//127
 };
 

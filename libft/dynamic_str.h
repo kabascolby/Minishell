@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 12:17:48 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/01 22:11:45 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/07 21:36:43 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,6 @@ void			dstr_set(t_dstr *dstr, uint32_t index, char c);
 char			dstr_get(t_dstr *dstr, uint32_t index);
 void			dstr_delete(t_dstr *dstr, uint32_t index);
 void			dstr_free(t_dstr *dstr);
+void			dstr_join_str(t_dstr *dstr, char *str, uint32_t index);
+void			dstr_remove(t_dstr *dstr, uint32_t index, uint32_t size);
 #endif

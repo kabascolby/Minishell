@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 01:18:17 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/03 07:31:02 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/08 19:11:06 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,11 @@ static void	create_process(t_shell *s)
 static int16_t	read_stdin(t_shell *s)
 {
 	char	c;
-	char *index_char;
 
-	index_char = (char [])KEYMAP(KEY1 KEY2);
 	ft_memset((char *)s->dstr->buff, 0, s->dstr->capacity);
 	dstr_init(s->dstr);
 	s->dstr->total = 0;
+	s->isquote = '\0';
 	while (s->is_readding && (read(STDIN_FILENO, &c, 1)) > 0)
 		g_keys[(int)index_char[(int)c]](s, c, write);
 	return (true);
@@ -49,8 +48,8 @@ void	stdin_listenner(t_shell *s)
 {
 	int8_t		idx;
 	int			p;
-	t_vector 	*vec;
-	t_command 	*proc;
+	t_vector	*vec;
+	t_command	*proc;
 
 	PROMPT;
 	s->is_readding = true;

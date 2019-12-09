@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 13:45:50 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/03 22:23:10 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/08 11:38:48 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ void		dstr_delete(t_dstr *dstr, uint32_t index)
 		dstr_resize(dstr, dstr->capacity / 2);
 }
 
+/*
+**Join a string to the dynamic string at a given position
+*/
+
 void		dstr_join_str(t_dstr *dstr, char *str, uint32_t index)
 {
 	uint32_t	len;
@@ -64,4 +68,13 @@ void		dstr_join_str(t_dstr *dstr, char *str, uint32_t index)
 	ft_memmove(dest + len, dest, rem);
 	ft_memcpy(dest, str, len);
 	dstr->total += len;
+}
+
+void		dstr_remove(t_dstr *dstr, uint32_t index, uint32_t size)
+{
+	uint32_t offset;
+
+	offset = ft_strlen(dstr->buff) - index;
+	ft_memmove(&dstr->buff[index], dstr->buff + index + size, offset);
+	dstr->total -= size;
 }

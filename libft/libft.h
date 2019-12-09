@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 13:33:59 by lkaba             #+#    #+#             */
-/*   Updated: 2019/11/30 21:51:24 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/04 21:39:57 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,12 @@ void			*ft_get_malloc(size_t n);
 ** return a copy of joingned arguments
 */
 char			*ft_join_args(char *sep, ...);
+/*
+**shift a string by triming a substring with the most accurate position
+**if the substring is close to the front the trim will happen from the
+**front else it will happen from the rear;
+*/
+char	*ft_shift_position(char *buf, uint32_t index, uint32_t size);
 /*
 ** Display the appropriate error message and exit;
 ** prog: cmd name | errstr: str argument(s) | reason: why error
