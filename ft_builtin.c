@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 12:13:58 by lkaba             #+#    #+#             */
-/*   Updated: 2019/11/28 19:29:04 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/10 22:24:37 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,8 @@ void	cmd_cd(t_shell *s, char **args)
 		error = NODIR;
 	if (*args && *args[0] != '/' && (cwd = NULL))
 	{
-		ft_putendl("-----Why----");
 		if (NULL == getcwd(cwd, 1))
 			error = NOPATH;
-		printf("cwd----------->%s|\n",  cwd);
 		if (!(path = ft_join_args("", cwd, "/", *args, NULL)) || -1 == chdir(path))
 			error = NOFDIR;
 		cwd ? free(cwd) : 0;

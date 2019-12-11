@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 10:18:43 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/08 17:44:07 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/10 22:22:49 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ struct						s_shell
 	t_hashtable		*ht;
 	t_hashtable		*ex;
 	t_memtrack		*mt;
+	t_vector		*cv;
+	char			spchar[UINT8_MAX];
 	t_dstr			*dstr;
 	char 			isquote;
 	t_dllnode		history;
@@ -101,7 +103,7 @@ char						**get_table(t_hashtable *ht);
 int8_t						get_index(t_shell *s, char *cmd, ...);
 void						set_unbeffered(void);
 void						signal_handler(void);
-void						special_char_converter(t_shell *s);
+void						special_char_converter(t_shell *s, int32_t buf_idx);
 int32_t						is_spchar(t_shell *s, sc_fptr *ddollard_fptr);
 
 /*
@@ -121,6 +123,8 @@ void						dollard_handler(t_shell *s, int *idx);
 void						ddollard_handler(t_shell *s, int *idx);
 void						hash_handler(t_shell *s, int *idx);
 void						quote_handler(t_shell *s, int *idx);
+void						backslash_handler(t_shell *s, int *idx);
+void						whitespace_handler(t_shell *s, int *idx);
 
 /*
 **keymap handler:each key pressed jump to a specific function
@@ -149,16 +153,23 @@ static void					(* const g_fptr[])(t_shell *, char **) =
 };
 
 /*
-**If you update  g_spchar make sure to update the
+**index initialization
+**If you update spchar make sure to update the
 **function pointer array in scpecial_char_converter
 */
-const static char g_spchar[INT8_MAX] =
-{
-	['$'] = 1,
-	['#'] = 2,
-	[34] = 3,
-	[39] = 3
-};
+void						index_table_init(char *table);
+
+/*
+**initialization for dooble quotes
+**this will turn off all the all whitespaces and single quote
+*/
+void						index_table_dquote_init(char *table);
+
+/*
+**initialization for single quotes
+**this will turn off all the all whitespaces and dooble quote
+*/
+void						index_table_quote_init(char *table);
 
 const static char index_char[UINT8_MAX] =
 {
@@ -181,4 +192,5 @@ static  kptr const g_keys[] =
 	fn_delete//127
 };
 
+int						fd_num(char *device); //to remove later
 #endif

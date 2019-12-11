@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 19:45:25 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/08 20:46:00 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/10 22:23:00 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,39 +34,28 @@ void	parse_env(t_shell *s, char **env)
 		s->ht->update(&s->ht, shell_path->key, "./minishell");
 }
 
-char	*token_handler(t_shell *s, char *line, const char *filter, char **save)
-{
-	char	*q;
-	int		t;
-	int		len;
-	(void)s;
-
-	t = ft_strcspn(line, filter);
-	len = ft_srlen(line);
-
-
-	if (line[t] == 34 || line[t] == 39)
-	{
-		q = line[t] == 34 ? "\"" : "\'";
-	}
-	return (ft_strtok_r(line," \t\f\n\r", save));
-}
-
 /*
-**Using coumpound literral to create a char array and
-**retuning a value to a pointer
+** get the index of a special charactere, from that get the value
+** of the special charactere in the spchar array.
+** once the we got the value we can jump to the right function from
+** the jumping table
 */
 
-
-void split_line(t_shell *s, t_vector *v)
+void	special_char_converter(t_shell *s, int32_t buf_idx)
 {
-	const static char	*filters;
-	char		*ptr;
+	static sc_fptr	*fptr;
+	int				idx;
 
-	filters = (const char[]){' ', '\t', '\f', '\n', '\r', 34, 39, 0};
-
-	while ((ptr = token_handler(s, s->dstr->buff, filters, &s->dstr->buff)))
-		v->vector_add(v, ptr);
+	s->isquote = '\0';
+	fptr = (sc_fptr[]){NULL, dollard_handler, hash_handler,
+	quote_handler, backslash_handler, whitespace_handler};
+	while (s->dstr->buff[buf_idx])
+	{
+		idx = s->spchar[(uint8_t)s->dstr->buff[buf_idx]];
+		if (idx != 0)
+			fptr[idx](s, &buf_idx);
+		buf_idx++;
+	}
 }
 
 //todo write a malloc pointer tracker will mae your life easier

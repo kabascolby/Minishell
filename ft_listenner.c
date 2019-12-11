@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 01:18:17 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/08 19:11:06 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/10 22:26:54 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,20 @@ void	stdin_listenner(t_shell *s)
 {
 	int8_t		idx;
 	int			p;
-	t_vector	*vec;
 	t_command	*proc;
 
 	PROMPT;
 	s->is_readding = true;
 	if (read_stdin(s))
 	{
-		printf("\nline----------->%s|\n", s->dstr->buff);
-		special_char_converter(s);
+		dprintf(fd_num("/dev/ttys001"), "\nline------->%s|\n", s->dstr->buff);
 		s->proc->vec = MALLOC(sizeof(t_vector));
 		vector_init(s->proc->vec);
-		vec = s->proc->vec;
-		split_line(s, vec);
+		s->cv = s->proc->vec;
+		index_table_init(s->spchar);
+		if (s->dstr->total)
+			vector_add(s->cv, s->dstr->buff);
+		special_char_converter(s, 0);
 		proc = s->proc;
 		while (proc)
 		{
@@ -77,6 +78,7 @@ void	stdin_listenner(t_shell *s)
 }
 
 // TODO
+		// split_line(s, vec);
 // vector is malloc |items in vector is malloc| buffer string is malloc|
 // ft_printf("_____child_____________%d___%d\n", getpid(), p);
 // ft_printf("________________parent________%d___%d\n", getpid(), p);

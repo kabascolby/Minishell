@@ -124,3 +124,25 @@ void	special_char_converter(t_shell *s)
 
 if (s->is_quote && !((num > 1) && CE_(dstr_get(s->dstr, num - 1), 92)))
 			s->is_quote = s->is_quote ^ 1;
+
+const static char g_spchar[UINT8_MAX] =
+{
+	['$'] = 1,['#'] = 2, [34] = 3,
+	[39] = 3, [92] = 4, [' '] = 5,
+	['\t'] = 5, ['\f'] = 5,
+	['\n'] = 5, ['\r'] = 5
+};
+
+const static char index_char[UINT8_MAX] =
+{
+	[9] = 1, [10] = 2, [27] = 3,
+	[34] = 4, [39] = 4, [127] = 5
+};
+
+if (s->isquote == c || !s->isquote)
+		s->isquote = !s->isquote ? c : 0;
+
+dprintf(fd_num("/dev/ttys001"), "index--> %d| c = %d|\n",
+	*idx, s->dstr->buff[*idx]);
+dprintf(fd_num("/dev/ttys001"), "next--> %d| c--> %d | toadd-->%s|\n",
+	next, (int)s->dstr->buff[*idx + next + 1], &s->dstr->buff[*idx + next + 1]);

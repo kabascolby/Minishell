@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 13:45:50 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/08 11:38:48 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/10 12:19:36 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,10 @@ void		dstr_add(t_dstr *dstr, char c)
 
 void		dstr_delete(t_dstr *dstr, uint32_t index)
 {
-	int	i;
 
 	if (index > dstr->total)
 		return ;
-	dstr->buff[index] = '\0';
-	i = index;
-	ft_strcpy(&dstr->buff[i], &dstr->buff[i + 1]);
+	ft_memcpy(&dstr->buff[index], &dstr->buff[index + 1], dstr->total - index);
 	dstr->total--;
 	if (dstr->total > 0 && dstr->total == dstr->capacity / 4)
 		dstr_resize(dstr, dstr->capacity / 2);
@@ -74,7 +71,9 @@ void		dstr_remove(t_dstr *dstr, uint32_t index, uint32_t size)
 {
 	uint32_t offset;
 
-	offset = ft_strlen(dstr->buff) - index;
+	if ((index > dstr->total) || !size)
+		return ;
+	offset = dstr->total - index;
 	ft_memmove(&dstr->buff[index], dstr->buff + index + size, offset);
 	dstr->total -= size;
 }

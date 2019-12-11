@@ -6,23 +6,22 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/29 13:18:04 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/08 17:20:33 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/10 19:05:30 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ft_debug_output(char *dev, char *res,
-void (*fptr)(const char *arg, int num))
+int		fd_num(char *device)
 {
 	static int fd;
 
-	if (!fd && (fd = open(dev, 1)) == -1)
+	if (!fd && (fd = open(device, 1)) == -1)
 	{
 		ft_putendl("error opennig fd");
-		return ;
+		return (0);
 	}
-	fptr(res, fd);
+	return (fd);
 }
 
 void	fn_other_key(t_shell *s, char c, wptr wrchar)
@@ -57,12 +56,10 @@ void	fn_delete(t_shell *s, char c, wptr wrchar)
 	(void)c;
 	if ((num = dstr_total(s->dstr)) && wrchar(STDOUT_FILENO, "\b \b", 3))
 	{
-		ft_debug_output("/dev/ttys001", ft_itoa(s->isquote), ft_putendl_fd);
 		if (s->isquote == dstr_get(s->dstr, num - 1) && !((num > 1) &&
 		dstr_get(s->dstr, num - 2) == 92))
 			s->isquote = '\0';
 		dstr_delete(s->dstr, num - 1);
-		ft_debug_output("/dev/ttys001", s->dstr->buff, ft_putendl_fd);
 	}
 }
 
