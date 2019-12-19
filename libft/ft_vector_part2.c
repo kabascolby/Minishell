@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 10:38:23 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/03 08:42:53 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/11 16:14:57 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	vector_set(t_vector *v, int index, void *item)
 
 void	vector_free(t_vector *v)
 {
-	free(v->items);
+	if (v && v->items)
+		free(v->items);
 	*v = (t_vector){0, 0, 0, 0, 0, 0, 0, 0};
 }
 

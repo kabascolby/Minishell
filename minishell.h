@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 10:18:43 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/10 22:22:49 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/19 00:36:33 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 # define NUM_ARGS(...)IMPL(0, ##__VA_ARGS__, 13,12,11,10,9,8,7,6,5,4,3,2,1,0)
 # define IMPL(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13,N,...) N
 # define NUM_TOKS(...) NUM_ARGS(__VA_ARGS__)
-# define TOKENS "echo", "cd", "env", "setenv", "unsetenv", "exit"
+# define BUILTINS "echo cd env setenv unsetenv exit"
 
 /*
 **9: horizontal tab; 10: \n new line; 32: space; 34:"" d_quote; 35:# hash;
@@ -53,14 +53,17 @@
 # define BAD_VAR "Variable name must begin with a letter."
 # define NOPATH "A component of the pathname no longer exists."
 # define NODIR "Can't change to home directory."
-# define NOFDIR "no such file or directory."
-# define NOSTR "string not in pwd"
+# define NOFDIR "No such file or directory."
+# define NOSTR "String not in pwd."
+# define MANY "Too many arguments."
+# define FEW "Too few arguments."
 // # define IS_SPACE(x) x >> 0 & 1 from snesei
 // # define IS_QUOTE(x) x >> 1 & 1
+volatile t_bool g_running;
+volatile t_bool g_next_line;
 
 typedef struct s_shell		t_shell;
 typedef struct s_command	t_command;
-// typedef struct s_tokens		t_tokens;
 typedef struct termios		t_termios;
 typedef void 				(*const sig_ptr)(int);
 typedef void				(*sc_fptr)(t_shell *, int *);
@@ -69,7 +72,7 @@ typedef void				(*sc_fptr)(t_shell *, int *);
 ** function pointer for key
 */
 typedef ssize_t				(*wptr)(int, const void *, unsigned long);
-typedef void				(*kptr)(t_shell *, char, wptr wrchar);
+typedef void				(*kptr)(t_shell *, char);
 
 struct						s_command
 {
@@ -84,8 +87,11 @@ struct						s_shell
 	t_hashtable		*ht;
 	t_hashtable		*ex;
 	t_memtrack		*mt;
-	t_vector		*cv;
+	t_command		*cmd;
 	char			spchar[UINT8_MAX];
+	char			pwd[PATH_MAX];
+	char			olpwd[PATH_MAX];
+	t_vector		*path;
 	t_dstr			*dstr;
 	char 			isquote;
 	t_dllnode		history;
@@ -100,21 +106,22 @@ void						parse_env(t_shell *s, char **env);
 void						split_line(t_shell *s, t_vector *vec);
 void						stdin_listenner(t_shell *s);
 char						**get_table(t_hashtable *ht);
-int8_t						get_index(t_shell *s, char *cmd, ...);
+int8_t						get_index(char *cmd, char *builtins);
 void						set_unbeffered(void);
 void						signal_handler(void);
 void						special_char_converter(t_shell *s, int32_t buf_idx);
 int32_t						is_spchar(t_shell *s, sc_fptr *ddollard_fptr);
+void						recycled_bin(t_shell *s);
 
 /*
 **builtin functions
 */
-void						cmd_echo(t_shell *s, char **args);
-void						cmd_cd(t_shell *s, char **args);
-void						cmd_env(t_shell *s, char **args);
-void						cmd_setenv(t_shell *s, char **args);
-void						cmd_unsetenv(t_shell *s, char **args);
-void						cmd_exit(t_shell *s, char **args);
+int						cmd_echo(t_shell *s, int argc, char **args);
+int						cmd_cd(t_shell *s, int argc, char **args);
+int						cmd_env(t_shell *s, int argc, char **args);
+int						cmd_setenv(t_shell *s, int argc, char **args);
+int						cmd_unsetenv(t_shell *s, int argc, char **args);
+int						cmd_exit(t_shell *s, int argc, char **args);
 
 /*
 **Special charactere handler
@@ -125,24 +132,25 @@ void						hash_handler(t_shell *s, int *idx);
 void						quote_handler(t_shell *s, int *idx);
 void						backslash_handler(t_shell *s, int *idx);
 void						whitespace_handler(t_shell *s, int *idx);
+void						semicolon_handler(t_shell *s, int *idx);
 
 /*
 **keymap handler:each key pressed jump to a specific function
 */
-void 						fn_other_key(t_shell *s, char c, wptr wrchar);
-void 						fn_tab(t_shell *s, char c, wptr wrchar);
-void 						fn_new_line(t_shell *s, char c, wptr wrchar);
-void 						fn_delete(t_shell *s, char c, wptr wrchar);
-void 						fn_dquote(t_shell *s, char c, wptr wrchar);
-void 						fn_quote(t_shell *s, char c, wptr wrchar);
-void 						fn_with_esc(t_shell *s, char c, wptr wrchar);
+void 						fn_other_key(t_shell *s, char c);
+void 						fn_tab(t_shell *s, char c);
+void 						fn_new_line(t_shell *s, char c);
+void 						fn_delete(t_shell *s, char c);
+void 						fn_dquote(t_shell *s, char c);
+void 						fn_quote(t_shell *s, char c);
+void 						fn_with_esc(t_shell *s, char c);
 
 
 /*
 **builtin function pointer each command return a specific index
 **to call that function at the given index.
 */
-static void					(* const g_fptr[])(t_shell *, char **) =
+static int					(* const g_fptr[])(t_shell *, int argc, char **) =
 {
 	cmd_echo,
 	cmd_cd,
@@ -182,7 +190,7 @@ const static char index_char[UINT8_MAX] =
 **the appropriate on each call. this will help us to avoid
 **if else statement hell
 */
-static  kptr const g_keys[] =
+static  kptr const g_keys[UINT8_MAX] =
 {
 	fn_other_key,//0
 	fn_tab,//9

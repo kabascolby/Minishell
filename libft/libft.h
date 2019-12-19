@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 13:33:59 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/04 21:39:57 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/18 16:27:49 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,11 @@ int				ft_isalpha(int c);
 int				ft_isalnum(int c);
 int				ft_isascii(int c);
 int				ft_isprint(int c);
+/*
+**Take a char pointer and dereferrence that pointer
+**to a Lowercase
+*/
+void			ft_tolower2(char *c);
 void			*ft_memset(void *b, int c, size_t len);
 void			ft_bzero(void *s, size_t n);
 void			*ft_memcpy(void *dst, const void *src, size_t n);
@@ -190,12 +195,11 @@ char			*ft_join_args(char *sep, ...);
 **if the substring is close to the front the trim will happen from the
 **front else it will happen from the rear;
 */
-char	*ft_shift_position(char *buf, uint32_t index, uint32_t size);
+char			*ft_shift_position(char *buf, uint32_t index, uint32_t size);
 /*
 ** Display the appropriate error message and exit;
 ** prog: cmd name | errstr: str argument(s) | reason: why error
-** opt: exit or not;
+** return: 1;
 */
-void			ft_errexit(const char *prog, char *errstr,
-const char *reason, uint8_t opt);
+int				ft_errexit(const char *prog, char *errstr, const char *reason);
 #endif

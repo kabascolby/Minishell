@@ -146,3 +146,6 @@ dprintf(fd_num("/dev/ttys001"), "index--> %d| c = %d|\n",
 	*idx, s->dstr->buff[*idx]);
 dprintf(fd_num("/dev/ttys001"), "next--> %d| c--> %d | toadd-->%s|\n",
 	next, (int)s->dstr->buff[*idx + next + 1], &s->dstr->buff[*idx + next + 1]);
+
+// ft_printf("_____child_____________%d___%d\n", getpid(), p);
+// ft_printf("________________parent________%d___%d\n", getpid(), p);

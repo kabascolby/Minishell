@@ -1,43 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_signal.c                                        :+:      :+:    :+:   */
+/*   ft_builtin_cmd_env.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/08 10:08:01 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/13 19:32:18 by lkaba            ###   ########.fr       */
+/*   Created: 2019/12/16 19:00:03 by lkaba             #+#    #+#             */
+/*   Updated: 2019/12/17 09:13:07 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-** (ctrl + c) signal handler
-*/
-
-static void		ignore(int num)
+int	cmd_env(t_shell *s, int argc, char **args)
 {
-	(void)num;
-	g_next_line = true;
-	write(STDOUT_FILENO, "\n", 1);
+	char **env;
+
+	if (argc)
+		return (ft_errexit("env", "No such file or directory", *args));
+	env = get_table(s->ht);
+	if (env && *env)
+		while (*env)
+			ft_putendl(*env++);
+	return (0);
 }
 
-/*
-** (ctrl + d) signal handler
-*/
-
-static void		quit(int num)
-{
-	UNUSED(num);
-	write(STDOUT_FILENO, 0, 1);
-	// printf("%d\n", g_running);
-}
-
-void	signal_handler(void)
-{
-	signal(SIGINT, ignore);
-	signal(SIGTERM, quit);
-	g_running = true;
-	g_next_line = 0;
-}
+//TODO: create a new environment if the env is NULL

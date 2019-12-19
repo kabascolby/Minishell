@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 08:56:36 by lkaba             #+#    #+#             */
-/*   Updated: 2019/11/01 11:27:46 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/11 15:58:42 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int8_t			hashtable_update(t_hashtable **table, void *key, void *item)
 {
 	t_entry *entry;
 
-	if((entry = hashtable_get_entry(*table, key)))
+	if ((entry = hashtable_get_entry(*table, key)))
 	{
 		free(entry->item);
 		entry->item = item;

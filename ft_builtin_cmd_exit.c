@@ -1,43 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_signal.c                                        :+:      :+:    :+:   */
+/*   ft_builtin_cmd_exit.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/08 10:08:01 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/13 19:32:18 by lkaba            ###   ########.fr       */
+/*   Created: 2019/12/16 19:27:22 by lkaba             #+#    #+#             */
+/*   Updated: 2019/12/16 21:24:39 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-** (ctrl + c) signal handler
-*/
-
-static void		ignore(int num)
+int	cmd_exit(t_shell *s, int argc, char **args)
 {
-	(void)num;
-	g_next_line = true;
-	write(STDOUT_FILENO, "\n", 1);
-}
+	int	i;
 
-/*
-** (ctrl + d) signal handler
-*/
-
-static void		quit(int num)
-{
-	UNUSED(num);
-	write(STDOUT_FILENO, 0, 1);
-	// printf("%d\n", g_running);
-}
-
-void	signal_handler(void)
-{
-	signal(SIGINT, ignore);
-	signal(SIGTERM, quit);
-	g_running = true;
-	g_next_line = 0;
+	(void)s;
+	if (argc > 1)
+		return (ft_errexit(*(args - 1), "Expression Syntax.", 0));
+	else if (argc == 1)
+	{
+		i = -1;
+		while (args[0][++i])
+		{
+			if (!ft_isdigit(args[0][i]))
+				return (ft_errexit(*(args - 1), "Badly formed number.", 0));
+		}
+	}
+	g_running = false;
+	return (0);
 }

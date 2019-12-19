@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 10:53:47 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/10 11:36:33 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/17 10:40:24 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	index_table_init(char *table)
 	{
 		['$'] = 1,
 		['#'] = 2,
+		[';'] = 6,
 		[34] = 3,
 		[39] = 3,
 		[92] = 4,
@@ -35,6 +36,7 @@ void	index_table_init(char *table)
 void	index_table_dquote_init(char *table)
 {
 	table[39] = 0;
+	table[';'] = 0;
 	table[' '] = 0;
 	table['#'] = 0;
 	table['\t'] = 0;
@@ -49,6 +51,7 @@ void	index_table_quote_init(char *table)
 	table[92] = 0;
 	table['$'] = 0;
 	table['#'] = 0;
+	table[';'] = 0;
 	table[' '] = 0;
 	table['\t'] = 0;
 	table['\f'] = 0;

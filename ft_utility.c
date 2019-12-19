@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 10:14:14 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/10 10:53:43 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/19 00:55:30 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,19 @@ char		**get_table(t_hashtable *ht)
 	return (tab);
 }
 
-int8_t		get_index(t_shell *s, char *cmd, ...)
+int8_t		get_index(char *cmd, char *builtins)
 {
 	uint8_t	i;
-	va_list	args;
+	char	*tmp;
 
-	va_start(args, cmd);
 	i = 0;
-	while (i < s->fptr_len)
+	while ((tmp = ft_strtok_r(builtins, " ", &builtins)))
 	{
-		if (SE_(va_arg(args, char *), cmd))
+		if (!ft_strcmp(cmd, tmp))
 			break ;
 		i++;
 	}
-	va_end(args);
-	return (i ? i : -1);
+	return (tmp ? i : -1);
 }
 
 /*
@@ -66,11 +64,11 @@ void		set_unbeffered(void)
 {
 	t_termios new_term_attr;
 
-	tcgetattr(STDIN_FILENO, &new_term_attr);
+	tcgetattr(1, &new_term_attr);
 	new_term_attr.c_lflag &= (~ICANON & ~ECHO);
+	new_term_attr.c_cc[VMIN] = 0;
+	new_term_attr.c_cc[VTIME] = 1;
 	tcsetattr(STDIN_FILENO, TCSANOW, &new_term_attr);
-	new_term_attr.c_cc[VMIN] = 1;
-	new_term_attr.c_cc[VTIME] = 0;
 }
 
 void		reset_terminal(t_shell *s)

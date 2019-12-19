@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkaba <lkaba@student.42.us.org>            +#+  +:+       +#+        */
+/*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/22 16:04:00 by lkaba             #+#    #+#             */
-/*   Updated: 2017/11/22 16:04:01 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/18 16:24:58 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,4 +15,10 @@ int	ft_tolower(int c)
 	if (c >= 'A' && c <= 'Z')
 		return ((c - 'A') + 'a');
 	return (c);
+}
+
+void	ft_tolower2(char *c)
+{
+	if (*c >= 'A' && *c <= 'Z')
+		*c = (*c - 'A') + 'a';
 }

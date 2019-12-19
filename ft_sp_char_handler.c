@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 14:25:14 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/10 20:55:20 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/18 18:20:45 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	dollard_handler(t_shell *s, int *idx)
 }
 
 /*
-**expand the '$$'by the value in the environment variable
+**Expand the '$$'by the value in the environment variable
 **this doesn't work for single quotes
 */
 
@@ -100,11 +100,42 @@ void	backslash_handler(t_shell *s, int *idx)
 void	whitespace_handler(t_shell *s, int *idx)
 {
 	uint16_t	next;
-
+	char		c;
+	if (s->dstr->buff[*idx] == ';')
+		return ;
 	s->dstr->buff[*idx] = '\0';
-
 	next = ft_strspn(&s->dstr->buff[*idx + 1], " \t\f\n\r");
-	if (s->dstr->buff[*idx + next + 1])
-		vector_add(s->cv, &s->dstr->buff[*idx + next + 1]);
+	c = s->dstr->buff[*idx + next + 1];
+	if (c && c != ';')
+		vector_add(s->cmd->vec, &s->dstr->buff[*idx + next + 1]);
+	*idx += next;
+}
+
+void	semicolon_handler(t_shell *s, int *idx)
+{
+	t_command	**nc;
+	t_command	*tmp;
+	uint16_t	next;
+	char		c;
+
+	next = 0;
+	if (*idx > 1 && !ft_iswhitespace(s->dstr->buff[*idx - 1]))
+		s->dstr->buff[*idx] = '\0';
+	next = ft_strspn(&s->dstr->buff[*idx + 1], " ;\t\f\n\r");
+	c = s->dstr->buff[*idx + next + 1];
+	if (c)
+	{
+		tmp = s->proc;
+		while (tmp)
+		{
+			nc = &tmp->next;
+			tmp = tmp->next;
+		}
+		*nc = MALLOC(sizeof(t_command));
+		s->cmd = *nc;
+		s->cmd->vec = MALLOC(sizeof(t_vector));
+		vector_init(s->cmd->vec);
+		vector_add(s->cmd->vec, &s->dstr->buff[*idx + next + 1]);
+	}
 	*idx += next;
 }
