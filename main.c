@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 10:04:57 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/19 00:47:29 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/20 16:34:14 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	recycled_bin(t_shell *s)
 		proc = s->proc;
 		s->proc = s->proc->next;
 		if(proc->vec)
-			vector_free(proc->vec);
+			vector_free(&proc->vec);
 		free(proc);
 	}
 	ft_putendl("exit");
@@ -45,6 +45,7 @@ int		main(int argc, char **argv, char **environ)
 	signal_handler();
 	shell.mt = memtracker_init(300);
 	parse_env(&shell, environ - 1);
+	parse_executable(&shell);
 	getcwd(shell.pwd, PATH_MAX);
 	getcwd(shell.olpwd, PATH_MAX);
 	shell.fptr_len = sizeof(g_fptr) / sizeof(*g_fptr);

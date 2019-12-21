@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 19:45:25 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/18 23:41:39 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/19 21:40:13 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 /*
 **Parsing the environement array to copy in my hashtable all the variables.
-**Calling ft_strtok twice to split each_env line by equal sign
+**Calling ft_strtok twice to split env_ptr line by equal sign
 */
 
-void	parse_env(t_shell *s, char **env)
+void		parse_env(t_shell *s, char **env)
 {
 	char	*key;
 	char	*value;
@@ -34,28 +34,58 @@ void	parse_env(t_shell *s, char **env)
 		s->ht->update(&s->ht, shell_path->key, ft_strdup("./minishell"));
 }
 
-/* void	parse_executable(t_shell *s)
+/*
+**Grab all the executables from a given directory
+**and build an abolute path in an Hashtable path.
+*/
+
+static void	save_executables(t_shell *s, char *path, DIR *dir)
 {
-	t_entry *e;
+	struct dirent	*entry;
+	char			*abs_path;
+
+	while ((entry = readdir(dir)))
+	{
+		if (entry->d_name[0] == '.')
+			continue ;
+		abs_path = ft_join_args("", path, "/", entry->d_name, NULL);
+		if (access(abs_path, F_OK | X_OK))
+		{
+			free(abs_path);
+			continue ;
+		}
+		hashtable_insert(&s->path, ft_strdup(entry->d_name), abs_path);
+	}
+}
+
+/*
+**split the path enviroment variable by ':'
+**for each path open the directory
+*/
+
+void		parse_executable(t_shell *s)
+{
+	t_entry *entry;
 	char	*save_env;
-	char	*each_env;
-	char	*each;
+	char	*env_ptr;
+	char	*path;
 	DIR		*dir;
 
-	if (!(e = s->ht->get_entry(s->ht, "PATH")) || !e->item)
+	if (!(entry = s->ht->get_entry(s->ht, "PATH")) || !entry->item)
 		return ;
-	save_env = ft_stdup(e->item);
-	each_env = save_env;
-	while ((each = ft_strtok_r(each_env, ":", &each_env)))
+	save_env = ft_strdup(entry->item);
+	env_ptr = save_env;
+	s->path = hashtable_init(300);
+	while ((path = ft_strtok_r(env_ptr, ":", &env_ptr)))
 	{
-		if ((dir = opendir(each)))
+		if ((dir = opendir(path)))
 		{
-			save_executables(s, each, )
+			save_executables(s, path, dir);
+			closedir(dir);
 		}
 	}
 	FREE(save_env);
-
-} */
+}
 
 /*
 ** get the index of a special charactere, from that get the value
@@ -64,7 +94,7 @@ void	parse_env(t_shell *s, char **env)
 ** the jumping table
 */
 
-void	special_char_converter(t_shell *s, int32_t buf_idx)
+void		special_char_converter(t_shell *s, int32_t buf_idx)
 {
 	static sc_fptr	*fptr;
 	int				idx;
@@ -81,5 +111,3 @@ void	special_char_converter(t_shell *s, int32_t buf_idx)
 		buf_idx++;
 	}
 }
-
-//todo write a malloc pointer tracker will mae your life easier

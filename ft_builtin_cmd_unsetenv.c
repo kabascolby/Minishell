@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 12:13:58 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/17 18:17:39 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/19 23:30:54 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,7 @@ int	cmd_unsetenv(t_shell *s, int argc, char **args)
 		if (s->ht->get_entry(s->ht, args[i]))
 			s->ht->pop_item(&s->ht, args[i]);
 	}
+	if (!ft_strcmp(*args, "PATH"))
+		hashtable_destroy(&s->path);
 	return (0);
 }

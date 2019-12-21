@@ -149,3 +149,35 @@ dprintf(fd_num("/dev/ttys001"), "next--> %d| c--> %d | toadd-->%s|\n",
 
 // ft_printf("_____child_____________%d___%d\n", getpid(), p);
 // ft_printf("________________parent________%d___%d\n", getpid(), p);
+
+/* static char	*find_exec(t_hashtable *ht, char *name)
+{
+	char	*env_paths;
+	char	*save_ptr;
+	char	*tmp;
+	t_entry *e;
+
+	if (!(e = ht->get_entry(ht, "PATH")) || !e->item)
+		return (NULL);
+	tmp = NULL;
+	save_ptr = NULL;
+	env_paths = ft_strdup(e->item);
+	save_ptr = env_paths;
+	while ((tmp = ft_strtok_r(save_ptr, ":", &save_ptr)))
+	{
+		// dprintf(fd_num("/dev/ttys001"), "tmp->%s|s-->%s\n",tmp, save_ptr);
+		if (!access((tmp = ft_join_args("", tmp, "/", name, 0)), F_OK | X_OK))
+			break ;
+	}
+	free(env_paths);
+	return (tmp);
+} */
+
+static t_bool		is_exectuble(char *path)
+{
+	struct stat sb;
+
+	if (stat(path, &sb) == 0 && sb.st_mode & S_IXUSR)
+		return (true);
+	return (false);
+}

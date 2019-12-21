@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/29 13:18:04 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/18 18:44:12 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/20 21:44:15 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,27 @@ void	fn_other_key(t_shell *s, char c)
 
 void	fn_tab(t_shell *s, char c)
 {
-	UNUSED(s, c);
-	ft_putstr("handle auto completion");
+	t_vector	*keys;
+	char		*find;
+	uint32_t	i;
+
+	(void)c;
+	keys = NULL;
+	i = -1;
+	hastable_keys(s->path, &keys);
+	find = NULL;
+	if (s->dstr->total && keys->total)
+		while (keys->items[++i])
+			if (!ft_strncmp(keys->items[i], s->dstr->buff, s->dstr->total))
+				if (!find || ft_strlen(keys->items[i]) < ft_strlen(find))
+					find = keys->items[i];
+	if (find)
+	{
+		ft_putstr(find + s->dstr->total);
+		dstr_join_str(s->dstr, find + s->dstr->total, s->dstr->total);
+	}
+	dprintf(fd_num("/dev/ttys001"), "find----->%s\n", find);
+	vector_free(&keys);
 }
 
 void	fn_new_line(t_shell *s, char c)

@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 10:14:14 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/19 00:55:30 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/20 21:57:47 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,21 @@ char		**get_table(t_hashtable *ht)
 	return (tab);
 }
 
+t_vector	*hastable_keys(t_hashtable *ht, t_vector **keys)
+{
+	uint32_t	i;
+	uint32_t	num;
+
+	*keys = MALLOC(sizeof(t_vector));
+	vector_init(*keys);
+	i = -1;
+	num = ht->num_buckets;
+	while (++i < num)
+		if (ht->buckets[i])
+			vector_add(*keys, ht->buckets[i]->key);
+	return (*keys);
+}
+
 int8_t		get_index(char *cmd, char *builtins)
 {
 	uint8_t	i;
@@ -48,7 +63,7 @@ int8_t		get_index(char *cmd, char *builtins)
 	i = 0;
 	while ((tmp = ft_strtok_r(builtins, " ", &builtins)))
 	{
-		if (!ft_strcmp(cmd, tmp))
+		if (cmd && !ft_strcmp(cmd, tmp))
 			break ;
 		i++;
 	}
@@ -71,7 +86,11 @@ void		set_unbeffered(void)
 	tcsetattr(STDIN_FILENO, TCSANOW, &new_term_attr);
 }
 
-void		reset_terminal(t_shell *s)
+/*
+**restore terminal to canonical mode
+*/
+
+void		restor_terminal(t_shell *s)
 {
 	tcsetattr(STDIN_FILENO, TCSANOW, &s->old_t_attr);
 }
