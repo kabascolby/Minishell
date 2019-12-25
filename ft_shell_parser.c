@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 19:45:25 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/19 21:40:13 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/23 15:26:23 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ static void	save_executables(t_shell *s, char *path, DIR *dir)
 /*
 **split the path enviroment variable by ':'
 **for each path open the directory
+**adding builtin to path for auto completion
 */
 
 void		parse_executable(t_shell *s)
@@ -77,14 +78,15 @@ void		parse_executable(t_shell *s)
 	env_ptr = save_env;
 	s->path = hashtable_init(300);
 	while ((path = ft_strtok_r(env_ptr, ":", &env_ptr)))
-	{
 		if ((dir = opendir(path)))
 		{
 			save_executables(s, path, dir);
 			closedir(dir);
 		}
-	}
 	FREE(save_env);
+	env_ptr = (char[]){BUILTINS};
+	while ((path = ft_strtok_r(env_ptr, " ", &env_ptr)))
+		hashtable_insert(&s->path, ft_strdup(path), ft_strdup(path));
 }
 
 /*
@@ -102,7 +104,7 @@ void		special_char_converter(t_shell *s, int32_t buf_idx)
 	s->isquote = '\0';
 	fptr = (sc_fptr[]){NULL, dollard_handler, hash_handler,
 	quote_handler, backslash_handler, whitespace_handler,
-	semicolon_handler};
+	semicolon_handler, backslash_tilde};
 	while (s->dstr->buff[buf_idx])
 	{
 		idx = s->spchar[(uint8_t)s->dstr->buff[buf_idx]];

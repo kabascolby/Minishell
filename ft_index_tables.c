@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 10:53:47 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/17 10:40:24 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/23 15:37:08 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ void	index_table_init(char *table)
 		['\t'] = 5,
 		['\f'] = 5,
 		['\n'] = 5,
-		['\r'] = 5
+		['\r'] = 5,
+		['~'] = 7
+
 	};
 	table = ft_memcpy(table, tab, UINT8_MAX);
 }
@@ -37,6 +39,7 @@ void	index_table_dquote_init(char *table)
 {
 	table[39] = 0;
 	table[';'] = 0;
+	table['~'] = 0;
 	table[' '] = 0;
 	table['#'] = 0;
 	table['\t'] = 0;
@@ -52,6 +55,7 @@ void	index_table_quote_init(char *table)
 	table['$'] = 0;
 	table['#'] = 0;
 	table[';'] = 0;
+	table['~'] = 0;
 	table[' '] = 0;
 	table['\t'] = 0;
 	table['\f'] = 0;

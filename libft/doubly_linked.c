@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:49:09 by lkaba             #+#    #+#             */
-/*   Updated: 2018/06/28 10:16:06 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/24 11:01:34 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,16 @@ t_dllnode	*create_dllnode(void *data)
 ** We can call this operation Push or Insert at head
 */
 
-void		pushdll(void *data, t_dllnode *head)
+void		pushdll(void *data, t_dllnode **head)
 {
 	t_dllnode	*temp;
 
 	temp = create_dllnode(data);
-	if (!head)
-	{
-		head = temp;
-		return ;
-	}
-	head->prev = temp;
-	temp->next = head;
-	head = temp;
+	if (!*head)
+		*head = temp;
+	(*head)->prev = temp;
+	temp->next = *head;
+	*head = temp;
 }
 
 /*
@@ -76,13 +73,13 @@ int			is_ddl_overflow(size_t pos, t_dllnode *head)
 ** We Insert the node at the given position
 */
 
-void		insertddl(size_t pos, void *data, t_dllnode *head)
+void		insertddl(size_t pos, void *data, t_dllnode **head)
 {
 	t_dllnode	*temp;
 	t_dllnode	*temp2;
 	size_t		i;
 
-	if (is_ddl_overflow(pos, head))
+	if (is_ddl_overflow(pos, *head))
 		return ;
 	temp = create_dllnode(data);
 	if (pos == 1)
@@ -90,7 +87,7 @@ void		insertddl(size_t pos, void *data, t_dllnode *head)
 		pushdll(data, head);
 		return ;
 	}
-	temp2 = head;
+	temp2 = *head;
 	i = -1;
 	while (++i < pos - 1)
 		temp2 = temp2->next;

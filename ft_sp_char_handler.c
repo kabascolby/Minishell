@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 14:25:14 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/18 18:20:45 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/23 15:39:01 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,4 +138,19 @@ void	semicolon_handler(t_shell *s, int *idx)
 		vector_add(s->cmd->vec, &s->dstr->buff[*idx + next + 1]);
 	}
 	*idx += next;
+}
+
+void	backslash_tilde(t_shell *s, int *idx)
+{
+	t_entry	*e;
+	char	*home;
+
+	if (*idx > 0 && s->dstr->buff[*idx - 1] &&
+	!ft_iswhitespace(s->dstr->buff[*idx - 1]))
+		return ;
+	e = s->ht->get_entry(s->ht, "HOME");
+	home = e && e->item ? e->item : "";
+	dstr_remove(s->dstr, *idx, 1);
+	dstr_join_str(s->dstr, home, *idx);
+	*idx += ft_strlen(home) - 1;
 }

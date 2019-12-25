@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 10:14:14 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/20 21:57:47 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/24 04:35:16 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ t_vector	*hastable_keys(t_hashtable *ht, t_vector **keys)
 	*keys = MALLOC(sizeof(t_vector));
 	vector_init(*keys);
 	i = -1;
-	num = ht->num_buckets;
+
+	num = ht ? ht->num_buckets : 0;
 	while (++i < num)
 		if (ht->buckets[i])
 			vector_add(*keys, ht->buckets[i]->key);
@@ -70,27 +71,3 @@ int8_t		get_index(char *cmd, char *builtins)
 	return (tmp ? i : -1);
 }
 
-/*
-**disable canonical mode (buffered i/o) and local echo
-**set the new settings immediately
-*/
-
-void		set_unbeffered(void)
-{
-	t_termios new_term_attr;
-
-	tcgetattr(1, &new_term_attr);
-	new_term_attr.c_lflag &= (~ICANON & ~ECHO);
-	new_term_attr.c_cc[VMIN] = 0;
-	new_term_attr.c_cc[VTIME] = 1;
-	tcsetattr(STDIN_FILENO, TCSANOW, &new_term_attr);
-}
-
-/*
-**restore terminal to canonical mode
-*/
-
-void		restor_terminal(t_shell *s)
-{
-	tcsetattr(STDIN_FILENO, TCSANOW, &s->old_t_attr);
-}

@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 10:18:43 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/20 18:50:26 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/24 09:02:52 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,9 @@
 # include <dirent.h>
 # include <sys/wait.h>
 # include "libft/libft.h"
-# define QT 1u
-# define DQT 2u
-# define MINIMIZING 2u
 # define LIGHT_RED "\033[1;31m"
+# define LIGHT_GREEN "\033[1;32m"
 # define NO_COLOUR "\033[0m"
-# define PROMPT ft_putstr(LIGHT_RED"$> "NO_COLOUR)
 # define BUILTINS "echo cd env setenv unsetenv exit"
 
 /*
@@ -60,7 +57,7 @@ typedef struct s_command	t_command;
 typedef struct termios		t_termios;
 typedef void 				(*const sig_ptr)(int);
 typedef void				(*sc_fptr)(t_shell *, int *);
-
+typedef struct t_dllnode	t_hist;
 /*
 ** function pointer for key
 */
@@ -70,7 +67,6 @@ typedef void				(*kptr)(t_shell *, char);
 struct						s_command
 {
 	t_vector		*vec;
-	int				status;
 	pid_t			child_pid;
 	t_command		*next;
 };
@@ -78,21 +74,23 @@ struct						s_shell
 {
 	t_command		*proc;
 	t_hashtable		*ht;
-	t_hashtable		*ex;
 	t_memtrack		*mt;
 	t_command		*cmd;
 	t_hashtable		*path;
+	int				status;
+	uint32_t		pos;
 	char			spchar[UINT8_MAX];
 	char			pwd[PATH_MAX];
 	char			olpwd[PATH_MAX];
 	t_dstr			*dstr;
 	char 			isquote;
-	t_dllnode		history;
+	t_dllnode		*history;
+	t_dllnode		*cur_hist;
 	pid_t			parent_id;
 	uint16_t		id;
 	uint8_t			fptr_len;
 	t_termios		old_t_attr;
-	volatile t_bool is_readding;
+	t_bool			is_readding;
 };
 
 /*
@@ -111,6 +109,7 @@ char					**get_table(t_hashtable *ht);
 int8_t					get_index(char *cmd, char *builtins);
 void					set_unbeffered(void);
 void					signal_handler(void);
+void					display_prompt(t_shell *s);
 int32_t					is_spchar(t_shell *s, sc_fptr *ddollard_fptr);
 void					recycled_bin(t_shell *s);
 t_vector				*hastable_keys(t_hashtable *ht, t_vector **keys);
@@ -136,7 +135,7 @@ void					quote_handler(t_shell *s, int *idx);
 void					backslash_handler(t_shell *s, int *idx);
 void					whitespace_handler(t_shell *s, int *idx);
 void					semicolon_handler(t_shell *s, int *idx);
-
+void					backslash_tilde(t_shell *s, int *idx);
 /*
 **keymap handler:each key pressed jump to a specific function
 */
@@ -148,6 +147,11 @@ void 					fn_dquote(t_shell *s, char c);
 void 					fn_quote(t_shell *s, char c);
 void 					fn_with_esc(t_shell *s, char c);
 
+/*
+**history
+*/
+t_bool					set_history(char *data);
+t_bool					get_history(t_shell *s);
 
 /*
 **builtin function pointer each command return a specific index
@@ -193,7 +197,7 @@ const static char index_char[UINT8_MAX] =
 **the appropriate on each call. this will help us to avoid
 **if else statement hell
 */
-static  kptr const g_keys[UINT8_MAX] =
+static  kptr const g_keys[] =
 {
 	fn_other_key,//0
 	fn_tab,//9
@@ -203,5 +207,4 @@ static  kptr const g_keys[UINT8_MAX] =
 	fn_delete//127
 };
 
-int						fd_num(char *device); //to remove later
 #endif

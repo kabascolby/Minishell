@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 19:27:22 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/16 21:24:39 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/21 11:16:46 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@ int	cmd_exit(t_shell *s, int argc, char **args)
 		}
 	}
 	g_running = false;
+	restor_terminal(s);
 	return (0);
 }

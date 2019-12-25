@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 13:33:59 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/18 16:27:49 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/24 10:58:09 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,8 +167,8 @@ void			*dequeue(t_queue *q);
 void			*peek(t_queue *q);
 int				is_empty(t_queue *q);
 t_dllnode		*create_dllnode(void *data);
-void			pushdll(void *data, t_dllnode *head);
-void			insertddl(size_t pos, void *data, t_dllnode *head);
+void			pushdll(void *data, t_dllnode **head);
+void			insertddl(size_t pos, void *data, t_dllnode **head);
 void			reverseddl(t_dllnode *head);
 t_dynamic_array	ft_init_dynamic_array(size_t length, size_t data_t_size);
 int				ft_free_darray(void *ptr);
@@ -185,6 +185,10 @@ uint64_t		ft_numdigit(uint64_t num);
 uint8_t			ft_isprime(uint32_t a);
 uint64_t		ft_find_next_prime(uint64_t n);
 void			*ft_get_malloc(size_t n);
+/*
+**Open a terminal device or a file and write on it;
+*/
+int				ft_open_fd(char *device);
 /*
 ** Take a separator char[0] with list of arguments terminated by NULL
 ** return a copy of joingned arguments

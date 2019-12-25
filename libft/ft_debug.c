@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/22 16:04:07 by lkaba             #+#    #+#             */
-/*   Updated: 2018/01/23 20:33:22 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/24 03:59:57 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,16 @@ int		ft_debug(char *s)
 		ft_putstr_fd("\033[92m <--\n\033[0m", 2);
 	}
 	return (1);
+}
+
+int		ft_open_fd(char *device)
+{
+	static int fd;
+
+	if (!fd && (fd = open(device, 1)) == -1)
+	{
+		ft_putendl("error opennig fd");
+		return (0);
+	}
+	return (fd);
 }
