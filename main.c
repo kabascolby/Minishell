@@ -6,43 +6,19 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 10:04:57 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/24 20:16:07 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/25 13:43:12 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	recycled_bin(t_shell *s)
-{
-	t_command	*proc;
-	t_dllnode	*next;
-	dstr_free(s->dstr);
-	ft_mtdestroy(s->mt);
-	hashtable_destroy(&s->ht);
-	while(s->proc)
-	{
-		proc = s->proc;
-		s->proc = s->proc->next;
-		if(proc->vec)
-			vector_free(&proc->vec);
-		free(proc);
-	}
-
-	while( s->history != NULL )
-	{
-		next = s->history->next;
-		FREE(s->history);
-		s->history = next;
-	}
-	ft_putendl("exit");
-}
 
 int		main(int argc, char **argv, char **environ)
 {
 	t_shell		shell;
 	t_dstr		dstr;
 
-	UNUSED(argc, argv);
+	(void)argc;
+	(void)argv;
 	ft_bzero((t_shell *)&shell, sizeof(t_shell));
 	dstr_init(&dstr);
 	shell.dstr = &dstr;
@@ -62,4 +38,3 @@ int		main(int argc, char **argv, char **environ)
 	restor_terminal(&shell);
 	return (0);
 }
-	//TODO: FREE HT  and ht buckets AND MT

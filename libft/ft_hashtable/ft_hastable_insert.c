@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 08:56:36 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/11 15:58:42 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/25 20:50:54 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int32_t			hashtable_insert(t_hashtable **table, void *key, void *item)
 		{
 			if (!(entry = new_entry(key, item)))
 				return (-1);
-			index = HASHCODE(key, (*table)->num_buckets);
+			index = get_hashidx(key, (*table)->num_buckets);
 			entry->next = ((*table)->buckets)[index];
 			((*table)->buckets)[index] = entry;
 			(*table)->entries += 1;

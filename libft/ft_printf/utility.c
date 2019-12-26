@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 17:08:55 by lkaba             #+#    #+#             */
-/*   Updated: 2018/04/06 15:42:24 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/25 15:36:53 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ void	ft_addnode(t_p *p, char *s1, size_t len)
 	char			*tmp;
 	t_pfnode		*str;
 
-	if ((s1 && len) || (!p->f.types.c && CE_2(p->f.type, 'c', 'C')))
+	if ((s1 && len) || (!p->f.types.c && CE(2, p->f.type, 'c', 'C')))
 	{
 		str = (t_pfnode *)malloc(sizeof(t_pfnode));
 		bzero(str, sizeof(t_pfnode));
-		if (!p->f.types.c && CE_2(p->f.type, 'c', 'C'))
+		if (!p->f.types.c && CE(2, p->f.type, 'c', 'C'))
 		{
 			tmp = ft_strnew(len + 1);
 			if (!p->f.min)

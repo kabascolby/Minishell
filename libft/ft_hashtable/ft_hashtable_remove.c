@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 11:23:38 by lkaba             #+#    #+#             */
-/*   Updated: 2019/10/17 23:05:20 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/25 20:50:54 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void		*hashtab_popitem(t_hashtable **table, char *key)
 
 	if (table && *table && key)
 	{
-		index = HASHCODE(key, (*table)->num_buckets);
+		index = get_hashidx(key, (*table)->num_buckets);
 		return (
 			popitem_util(table, ((*table)->buckets)[index], index, key));
 	}

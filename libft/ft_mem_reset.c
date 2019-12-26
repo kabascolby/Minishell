@@ -1,28 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_builtin_cmd_env.c                               :+:      :+:    :+:   */
+/*   ft_mem_reset.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/16 19:00:03 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/17 09:13:07 by lkaba            ###   ########.fr       */
+/*   Created: 2019/12/25 11:46:01 by lkaba             #+#    #+#             */
+/*   Updated: 2019/12/25 12:03:55 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	cmd_env(t_shell *s, int argc, char **args)
+void	ft_mem_reset(void *p)
 {
-	char **env;
-
-	if (argc)
-		return (ft_errexit("env", "No such file or directory", *args));
-	env = get_table(s->ht);
-	if (env && *env)
-		while (*env)
-			ft_putendl(*env++);
-	return (0);
+	free(p);
+	p = NULL;
 }
-
-//TODO: create a new environment if the env is NULL

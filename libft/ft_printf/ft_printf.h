@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 20:15:44 by lkaba             #+#    #+#             */
-/*   Updated: 2019/11/27 10:40:51 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/26 09:46:49 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,12 @@
 # include <unistd.h>
 # include <stdint.h>
 # include <wchar.h>
-# define NUM(c) ((c) - '0')
 # define NUMBERSET "0123456789abcdef0123456789ABCDEF"
 # define UM p->f.types.um
 # define IM p->f.types.im
 # define PL p->f.length
 # define STR p->f.str
 # define UIB ft_uitoabase
-# define WS p->f.types.ws
 
 typedef	union			u_value
 {

@@ -1,43 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_sp_char_handler.c                               :+:      :+:    :+:   */
+/*   sp_char_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 14:25:14 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/23 15:39:01 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/25 16:38:07 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	hash_handler(t_shell *s, int *idx)
-{
-	dstr_set(s->dstr, *idx, '\0');
-	s->dstr->total = *idx;
-	*idx -= 1;
-}
-
-void	quote_handler(t_shell *s, int *idx)
-{
-	char	c;
-
-	c = s->dstr->buff[*idx];
-	if (!s->isquote)
-	{
-		s->isquote = c;
-		c == 34 ? index_table_dquote_init(s->spchar) :
-		index_table_quote_init(s->spchar);
-	}
-	else
-	{
-		s->isquote = '\0';
-		index_table_init(s->spchar);
-	}
-	dstr_remove(s->dstr, *idx, 1);
-	*idx -= 1;
-}
 
 void	dollard_handler(t_shell *s, int *idx)
 {
@@ -101,6 +74,7 @@ void	whitespace_handler(t_shell *s, int *idx)
 {
 	uint16_t	next;
 	char		c;
+
 	if (s->dstr->buff[*idx] == ';')
 		return ;
 	s->dstr->buff[*idx] = '\0';
@@ -111,34 +85,10 @@ void	whitespace_handler(t_shell *s, int *idx)
 	*idx += next;
 }
 
-void	semicolon_handler(t_shell *s, int *idx)
-{
-	t_command	**nc;
-	t_command	*tmp;
-	uint16_t	next;
-	char		c;
-
-	next = 0;
-	if (*idx > 1 && !ft_iswhitespace(s->dstr->buff[*idx - 1]))
-		s->dstr->buff[*idx] = '\0';
-	next = ft_strspn(&s->dstr->buff[*idx + 1], " ;\t\f\n\r");
-	c = s->dstr->buff[*idx + next + 1];
-	if (c)
-	{
-		tmp = s->proc;
-		while (tmp)
-		{
-			nc = &tmp->next;
-			tmp = tmp->next;
-		}
-		*nc = MALLOC(sizeof(t_command));
-		s->cmd = *nc;
-		s->cmd->vec = MALLOC(sizeof(t_vector));
-		vector_init(s->cmd->vec);
-		vector_add(s->cmd->vec, &s->dstr->buff[*idx + next + 1]);
-	}
-	*idx += next;
-}
+/*
+**Replace the tidle by the home variable
+**this will be updated in 21sh
+*/
 
 void	backslash_tilde(t_shell *s, int *idx)
 {

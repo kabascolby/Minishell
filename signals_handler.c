@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_signal.c                                        :+:      :+:    :+:   */
+/*   signals_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 10:08:01 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/24 12:12:04 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/25 16:40:45 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,8 @@ static void		interrupt(int num)
 
 static void		quit(int num)
 {
-	UNUSED(num);
+	(void)num;
 	g_running = false;
-	// write(STDOUT_FILENO, 0, 1);
 }
 
 /*
@@ -43,7 +42,7 @@ static void		ignore(int num)
 	(void)num;
 }
 
-void	signal_handler(void)
+void			signal_handler(void)
 {
 	signal(SIGINT, interrupt);
 	signal(SIGTERM, quit);

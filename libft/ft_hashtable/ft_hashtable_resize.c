@@ -6,11 +6,16 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 14:19:11 by lkaba             #+#    #+#             */
-/*   Updated: 2019/10/18 01:05:15 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/25 20:50:54 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hashtable.h"
+
+uint64_t		get_hashidx(void *key, uint64_t buckets)
+{
+	return (ft_hash(key, ft_strlen(key)) % buckets);
+}
 
 static int8_t	hashtable_rehash_entry(t_hashtable **dest, t_entry **entry)
 {
@@ -18,7 +23,7 @@ static int8_t	hashtable_rehash_entry(t_hashtable **dest, t_entry **entry)
 
 	if (dest && *dest && entry && *entry)
 	{
-		index = HASHCODE((*entry)->key, (*dest)->num_buckets);
+		index = get_hashidx((*entry)->key, (*dest)->num_buckets);
 		(*entry)->next = ((*dest)->buckets)[index];
 		((*dest)->buckets)[index] = (*entry);
 		(*dest)->entries += 1;

@@ -6,11 +6,15 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/24 04:25:32 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/24 20:06:12 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/25 09:15:13 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*
+**update the dobbly linked list history
+*/
 
 t_bool		get_history(t_shell *s)
 {
@@ -25,6 +29,12 @@ t_bool		get_history(t_shell *s)
 	close(fd);
 	return (true);
 }
+
+/*
+**Create an history file or open if it's already exist
+**write data to the string
+**this feature will be fully implemented in 21sh.
+*/
 
 t_bool		set_history(char *data)
 {

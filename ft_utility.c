@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 10:14:14 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/24 04:35:16 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/25 16:39:52 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ t_vector	*hastable_keys(t_hashtable *ht, t_vector **keys)
 	*keys = MALLOC(sizeof(t_vector));
 	vector_init(*keys);
 	i = -1;
-
 	num = ht ? ht->num_buckets : 0;
 	while (++i < num)
 		if (ht->buckets[i])
@@ -70,4 +69,3 @@ int8_t		get_index(char *cmd, char *builtins)
 	}
 	return (tmp ? i : -1);
 }
-

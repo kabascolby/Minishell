@@ -1,32 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_hashtable_get_entry.c                           :+:      :+:    :+:   */
+/*   ft_builtin_cmd_env.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/17 11:44:01 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/25 20:50:54 by lkaba            ###   ########.fr       */
+/*   Created: 2019/12/16 19:00:03 by lkaba             #+#    #+#             */
+/*   Updated: 2019/12/25 16:31:45 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "hashtable.h"
+#include "minishell.h"
 
-t_entry	*hashtable_get_entry(t_hashtable *table, void *key)
+int	cmd_env(t_shell *s, int argc, char **args)
 {
-	t_entry		*cur_entry;
-	uint64_t	index;
+	char **env;
 
-	if (table && key)
-	{
-		index = get_hashidx(key, table->num_buckets);
-		cur_entry = (table->buckets)[index];
-		while (cur_entry)
-		{
-			if (ft_strcmp(cur_entry->key, key) == 0)
-				return (cur_entry);
-			cur_entry = cur_entry->next;
-		}
-	}
-	return (NULL);
+	if (argc)
+		return (ft_errexit("env", "No such file or directory", *args));
+	env = get_table(s->ht);
+	if (env && *env)
+		while (*env)
+			ft_putendl(*env++);
+	return (0);
 }

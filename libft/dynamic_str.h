@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 12:17:48 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/07 21:36:43 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/25 16:49:11 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,6 @@
 # define DYNAMIC_STR_H
 # include "libft.h"
 # define DYNAMIC_STR_CAPACITY 512
-
-/*
-** To simplify the use of the dynamic string data structure
-** by removing some of the verbosity
-*/
-
-# define DSTR_INIT(dstr) t_dstr dstr; dstr_init(&dstr)
-# define DSTR_ADD(dstr, c) dstr_add(&dstr, c)
-# define DSTR_SET(dstr, id, c) dstr_set(&dstr, id, c)
-# define DSTR_GET(dstr, id) dstr_get(&dstr, id)
-# define DSTR_DELETE(dstr, id) dstr_delete(&dstr, id)
-# define DSTR_TOTAL(dstr) dstr_total(&dstr)
-# define DSTR_FREE(dstr) dstr_free(&dstr)
 
 typedef struct s_dstr	t_dstr;
 struct			s_dstr {

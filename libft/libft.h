@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 13:33:59 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/24 10:58:09 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/25 16:50:32 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,29 +25,10 @@
 # include "vector.h"
 # include "dynamic_str.h"
 # include <errno.h>
-# define UNUSED(x, ...) (void)((void)x, ##__VA_ARGS__)
-# define EVEN(n) (n % 2 == 0)
-# define ISEVEN(n) (n % 2 == 0)
-# define ODD (n % 2 == 1)
 # define ERROR_ALLOC_MESSAGE "Insufficient memory"
-# define MALLOC(n) (ft_get_malloc(n))
-# define FREE(p) do { free(p); p = NULL;} while(0)
-# define CE_(a, b) ((a) == (b))
-# define CE_2(a, b, c) (CE_(a, b) || CE_(a, c))
-# define CE_3(a, b, c, d) (CE_(a, b) || CE_(a, c) || CE_(a, d))
-# define CE_4(a, b, c, d, e) (CE_2(a, b, c) || CE_2(a, d, e))
-# define CE_5(a, b, c, d, e, f) (CE_3(a, b, c, d) || CE_2(a, e, f))
-# define SE_(a, b) (ft_strequ((a), (b)))
-# define SE_2(a, b, c) (SE_(a, c) || SE_(b, c))
-# define SE_3(a, b, c, d) (SE_2(a, b, d) || SE_(c, d))
-# define SE_4(a, b, c, d, e) (SE_2(a, b, c) || SE_2(a, d, e))
-# define SE_5(a, b, c, d, e, f) (SE_3(a, b, c, d) || SE_2(a, e, f))
-# define RV_(a, b) (SE_(a , b) ? 1 : 0)
-# define RV_2(a, b, c) ((!RV_(a, c) &&  RV_(b, c) == 1) ? 2 : 0)
-# define RV_3(a, b, c, d) ((!RV_2(a, b, d) != 2) && SE_3(a, b, c, d) ? 3 : 0)
-# define MAX(a, b) (a > b ? a : b)
-# define STRINGIFY(x) #x
-# define LENGTH(x) (sizeof(STRINGIFY(x)) - 1)
+# define MALLOC ft_get_malloc
+# define FREE ft_mem_reset
+# define CE ft_charscmp
 
 typedef enum	e_bool
 {
@@ -186,6 +167,10 @@ uint8_t			ft_isprime(uint32_t a);
 uint64_t		ft_find_next_prime(uint64_t n);
 void			*ft_get_malloc(size_t n);
 /*
+**Free a pointer and set it to NULL
+*/
+void			ft_mem_reset(void *p);
+/*
 **Open a terminal device or a file and write on it;
 */
 int				ft_open_fd(char *device);
@@ -206,4 +191,11 @@ char			*ft_shift_position(char *buf, uint32_t index, uint32_t size);
 ** return: 1;
 */
 int				ft_errexit(const char *prog, char *errstr, const char *reason);
+
+/*
+**Use a variadic variables to compare the first char with the rest
+**@params:number of arguments and argument list
+**return: index of the match else 0
+*/
+int				ft_charscmp(int num, ...);
 #endif

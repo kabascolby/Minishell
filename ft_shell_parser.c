@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 19:45:25 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/23 15:26:23 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/25 16:39:29 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void		parse_env(t_shell *s, char **env)
 		value = ft_strtok_r(*env, "=", env);
 		s->ht->insert(&s->ht, ft_strdup(key), ft_strdup(value));
 	}
-
 	if (s->ht && (shell_path = s->ht->get_entry(s->ht, "SHELL")))
 		s->ht->update(&s->ht, shell_path->key, ft_strdup("./minishell"));
 }
@@ -98,11 +97,11 @@ void		parse_executable(t_shell *s)
 
 void		special_char_converter(t_shell *s, int32_t buf_idx)
 {
-	static sc_fptr	*fptr;
-	int				idx;
+	static t_sc_fptr	*fptr;
+	int					idx;
 
 	s->isquote = '\0';
-	fptr = (sc_fptr[]){NULL, dollard_handler, hash_handler,
+	fptr = (t_sc_fptr[]){NULL, dollard_handler, hash_handler,
 	quote_handler, backslash_handler, whitespace_handler,
 	semicolon_handler, backslash_tilde};
 	while (s->dstr->buff[buf_idx])

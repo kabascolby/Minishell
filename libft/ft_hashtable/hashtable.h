@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 19:37:47 by lkaba             #+#    #+#             */
-/*   Updated: 2019/11/01 10:58:31 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/26 09:35:13 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 # include "../libft.h"
 # define HTAB_MULTIPLIER 2
 # define HTAB_DIVISER 2
-# define HASHCODE(key, buckets) (ft_hash(key, ft_strlen(key)) % buckets)
-
 # define INIT_HASHTABLE_SIZE 257
 # define MIN_LOAD_FACTOR 0.0
 # define MAX_LOAD_FACTOR 0.7
@@ -38,7 +36,7 @@ struct						s_hashtable
 	t_entry		**buckets;
 	int32_t		(*insert)(t_hashtable **, void *, void *);
 	int8_t		(*update)(t_hashtable **, void *, void *);
-	int8_t	 	(*destroy)(t_hashtable **);
+	int8_t		(*destroy)(t_hashtable **);
 	t_entry		*(*get_entry)(t_hashtable *, void *);
 	void		*(*pop_item)(t_hashtable **, void *);
 	uint32_t	(*count_entry)(t_hashtable *);
@@ -57,4 +55,5 @@ int8_t						hashtable_shrink(t_hashtable **table);
 void						free_entry(t_entry **entry);
 void						*hashtable_popitem(t_hashtable **table, void *key);
 uint32_t					hashtable_count_entries(t_hashtable *table);
+uint64_t					get_hashidx(void *key, uint64_t buckets);
 #endif

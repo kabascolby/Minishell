@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 13:45:50 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/10 12:19:36 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/25 16:51:55 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void		dstr_add(t_dstr *dstr, char c)
 
 void		dstr_delete(t_dstr *dstr, uint32_t index)
 {
-
 	if (index > dstr->total)
 		return ;
 	ft_memcpy(&dstr->buff[index], &dstr->buff[index + 1], dstr->total - index);

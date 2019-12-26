@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 20:15:37 by lkaba             #+#    #+#             */
-/*   Updated: 2018/04/06 16:59:33 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/25 17:56:38 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_parse1(char *s, t_p *p)
 		p->f.plus = *s == '+' ? 1 : p->f.plus;
 		p->f.zero = *s == '0' ? 1 : p->f.zero;
 		p->f.space = *s == ' ' ? 1 : p->f.space;
-		if (!CE_5(*s, '#', '-', '+', ' ', '0'))
+		if (!CE(5, *s, '#', '-', '+', ' ', '0'))
 			break ;
 		s++;
 	}
@@ -37,7 +37,7 @@ int		accept_i_arg(char **s, t_p *p)
 	ret = 0;
 	while (ft_isdigit(**s))
 	{
-		ret = (10 * ret) + NUM(**s);
+		ret = (10 * ret) + ((**s) - '0');
 		(*s)++;
 	}
 	if (**s == '*')
@@ -83,16 +83,16 @@ char	*ft_parse3(char *s, t_p *p)
 		p->f.l = LL;
 		s++;
 	}
-	if (CE_4(*s, 'h', 'l', 'j', 'z'))
+	if (CE(4, *s, 'h', 'l', 'j', 'z'))
 		s++;
 	return (ft_parse4(s, p));
 }
 
 char	*ft_parse4(char *s, t_p *p)
 {
-	if (CE_5(*s, 's', 'S', 'p', 'd', 'D') ||
-		CE_5(*s, 'i', 'o', 'O', 'u', 'U') ||
-		CE_5(*s, 'x', 'X', 'c', 'C', '%') ||
+	if (CE(5, *s, 's', 'S', 'p', 'd', 'D') ||
+		CE(5, *s, 'i', 'o', 'O', 'u', 'U') ||
+		CE(5, *s, 'x', 'X', 'c', 'C', '%') ||
 		*s == 'b')
 	{
 		p->f.type = *s;

@@ -6,7 +6,7 @@
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 01:18:17 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/24 19:56:38 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/25 12:02:47 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static t_bool	end_of_line(t_shell *s)
 	char	c;
 
 	if (read(STDIN_FILENO, &c, 1) > 0 && (int)c >= 0 && (int)c < 128)
-		g_keys[(int)index_char[(int)c]](s, c);
+		g_keys[(int)g_idx_char[(int)c]](s, c);
 	return (s->is_readding);
 }
 
@@ -114,10 +114,3 @@ void			stdin_listenner(t_shell *s)
 			if_its_running(s);
 	}
 }
-
-/*
-**TODO
-**buffer has to be free only at the end of the program
-**vector has to be free before the next readding process
-**free the memory tracker
-*/

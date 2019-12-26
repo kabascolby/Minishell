@@ -1,32 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_hashtable_get_entry.c                           :+:      :+:    :+:   */
+/*   ft_charscmp.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/17 11:44:01 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/25 20:50:54 by lkaba            ###   ########.fr       */
+/*   Created: 2019/12/25 13:51:25 by lkaba             #+#    #+#             */
+/*   Updated: 2019/12/25 14:38:51 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "hashtable.h"
+#include "libft.h"
 
-t_entry	*hashtable_get_entry(t_hashtable *table, void *key)
+int	ft_charscmp(int num, ...)
 {
-	t_entry		*cur_entry;
-	uint64_t	index;
+	va_list	args;
+	int		a;
+	int		b;
+	int		i;
+	int		j;
 
-	if (table && key)
+	va_start(args, num);
+	a = va_arg(args, int);
+	i = 0;
+	j = 0;
+	while (++i <= num)
 	{
-		index = get_hashidx(key, table->num_buckets);
-		cur_entry = (table->buckets)[index];
-		while (cur_entry)
+		b = va_arg(args, int);
+		if (a == b)
 		{
-			if (ft_strcmp(cur_entry->key, key) == 0)
-				return (cur_entry);
-			cur_entry = cur_entry->next;
+			j++;
+			break ;
 		}
 	}
-	return (NULL);
+	va_end(args);
+	return (j ? i : 0);
 }

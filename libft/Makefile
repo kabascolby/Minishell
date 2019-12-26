@@ -92,7 +92,9 @@ FILES = ft_countwords.c\
 		ft_dstr_part1.c\
 		ft_dstr_part2.c\
 		memtrack.c\
+		ft_mem_reset.c\
 		ft_remove_substring.c\
+		ft_charscmp.c\
 		ft_debug.c
 
 OFILES = $(FILES:.c=.o)
