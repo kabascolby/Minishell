@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_listenner.c                                     :+:      :+:    :+:   */
+/*   listenner.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lkaba <lkaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 01:18:17 by lkaba             #+#    #+#             */
-/*   Updated: 2019/12/25 12:02:47 by lkaba            ###   ########.fr       */
+/*   Updated: 2019/12/26 18:31:35 by lkaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ void			stdin_listenner(t_shell *s)
 	{
 		if (!end_of_line(s) && !g_next_line)
 			continue;
-		dprintf(ft_open_fd("/dev/ttys001"), "\nline-->%s|\n", s->dstr->buff);
 		if (s->dstr->total > 0 && !g_next_line)
 		{
 			pushdll(ft_strdup(s->dstr->buff), &s->history);

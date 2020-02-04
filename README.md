@@ -1,25 +1,36 @@
 # Minishell
 
-The objective of this project is to create the simplest start of a shell
-script. Shell is beautiful! Isn’t there a famous saying? _“As beautiful as Shell?”_.
+Shell is beautiful! Isn’t there a famous saying? _“As beautiful as Shell?”_.
+
+## About
+
+The objective of this project was to implement a basic shell that allow users
+to create, access, change and display environement variables, also to execute
+Internal (builtins) and external (executables) commands.
+it's will be the fondation for future advanced projects like 21sh and 42sh.
+I wrote this project to be flexible and expandable with less dependancy.
+I avoid to use some advanced feature because they will be fully implemented
+in 21sh and 42sh.
 
 ## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
 ### Prerequisites
 
 Need a terminal to run on mac or linux.
 
-```
+```text
 Iterm, terminal (mac and linux), WSL (windows)...
 ```
 
-### Installing
+### Running the program
 
 run the Makefile to create an executable.
 
-```Makefile
+```bash
+git clone https://github.com/kabascolby/Minishell.git
+
+cd Minishell
+
 make or make re
 ```
 
@@ -29,13 +40,46 @@ After the compilation, run the executable.
 ./minishell
 ```
 
-## Running the tests
+## Implementions
 
-Explain how to run the automated tests for this system
+Based on the restrictions to implement this project
+and the coding style imposed by 42.
 
-### Break down into end to end tests
+### Mandatory
+
+the instruction was to implement a serie's of builtins commands
+with their basic functionality also to be able to run some
+externals commands(with binary files) specified in the PATH environement.
+
+- Builtins commands: echo, cd, setenv, unsetenv, env, exit
+
+```
+Give an example
+```
 
 Explain what these tests test and why
+
+### Bonuses
+
+- Raw mode also called Non Canonical mode.
+- Auto completion (with tab keypad).
+- Cursor Mouvement and line edition feature.
+  - Cursor positionning (keypad Left and Right);
+  - History (keypad Up and Down).
+- Signal management:
+  - `Ctrl + C`;
+  - `Ctrl + Z` (I turned it off. Will be updated in 21sh);
+  - `Ctrl + D`.
+- User right execution management (error handling).
+- Multiple commands (semi colons).
+- Custom Prompt:
+  - Display current directory name;
+  - Changing prompt color depending on the exit Status.
+- Some specials characteres handling (with `$`, `$$`, and `#`...)
+  - Single quotes or strong quotes keep the string unchanged
+  - Double quotes expand the string based on the value of `$variable` and `$$`
+- Hash `#` (comment inside the terminal)
+- etc;
 
 ```
 Give an example
@@ -55,27 +99,16 @@ Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-- [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-- [Maven](https://maven.apache.org/) - Dependency Management
-- [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
+- C programing language
+- Makefile to genrate the executable
 
 ## Authors
 
-- **Billie Thompson** - _Initial work_ - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+- **Lamine kaba** - _Initial work_ - [kabascolby](https://github.com/kabascolby)
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+open source
 
 ## Acknowledgments
 
